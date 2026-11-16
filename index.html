@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Easy Lifestyle — Curated Offers & Verified Deals</title>
-  <meta name="description" content="Explore curated offers, verified rewards, and practical digital deals from Easy Lifestyle." />
+  <title>Easy Lifestyle — Christmas Mega Sale & Festive Deals</title>
+  <meta name="description" content="Shop the ultimate Christmas Holiday special with up to 90% Off only at Easy Lifestyle." />
   <style>
     :root {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --surface-hover: #263449;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --accent: #10b981;
-      --accent-hover: #059669;
-      --badge-bg: rgba(16, 185, 129, 0.15);
-      --border: #334155;
+      --xmas-red: #c21807;
+      --xmas-red-hover: #a11105;
+      --xmas-green: #15803d;
+      --xmas-green-hover: #166534;
+      --festive-gold: #fbbf24;
+      --bg-light: #f4f6f8;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
     }
 
     * {
@@ -26,307 +27,750 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      line-height: 1.4;
+      overflow-x: hidden;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    /* Snowflake Fall Effect overlay */
+    .snow-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    .snowflake {
+      position: absolute;
+      color: #fff;
+      font-size: 1.1rem;
+      opacity: 0.8;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% { top: -10px; transform: translateX(0) rotate(0deg); }
+      100% { top: 105vh; transform: translateX(80px) rotate(360deg); }
+    }
+
+    /* Top Christmas Ticker Bar */
+    .top-promo-bar {
+      background: var(--xmas-green);
+      color: #ffffff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 6px 10px;
+      letter-spacing: 0.03em;
+    }
+
+    .top-promo-bar span {
+      color: var(--festive-gold);
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
     }
 
     .container {
-      width: 100%;
-      max-width: 1040px;
+      max-width: 1240px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 15px;
     }
 
-    /* Header */
+    /* Global Header Area */
     header {
-      border-bottom: 1px solid var(--border);
-      padding: 18px 0;
+      background: var(--surface);
+      border-bottom: 3px solid var(--xmas-red);
       position: sticky;
       top: 0;
-      background: rgba(15, 23, 42, 0.92);
-      backdrop-filter: blur(8px);
-      z-index: 10;
+      z-index: 20;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
-    .nav {
+    .nav-wrapper {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 12px 0;
     }
 
-    .brand {
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-    }
-
-    .brand span {
-      color: var(--accent);
-    }
-
-    .nav-links {
+    .logo-container {
       display: flex;
-      gap: 20px;
-      font-size: 0.95rem;
-      color: var(--muted);
+      align-items: center;
     }
 
-    .nav-links a:hover {
-      color: var(--text);
+    /* Primary Branding Logo */
+    .logo-img {
+      height: 54px;
+      object-fit: contain;
     }
 
-    /* Hero */
-    .hero {
-      padding: 64px 0 48px;
-      text-align: center;
+    .search-bar {
+      flex: 1;
+      max-width: 500px;
+      margin: 0 20px;
+      display: flex;
+      position: relative;
     }
 
-    .pill {
-      display: inline-block;
-      background: var(--badge-bg);
-      color: var(--accent);
-      font-size: 0.82rem;
-      font-weight: 600;
-      padding: 6px 14px;
+    .search-input {
+      width: 100%;
+      padding: 10px 16px;
+      border: 2px solid var(--xmas-green);
       border-radius: 999px;
-      margin-bottom: 18px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 3rem);
-      line-height: 1.15;
-      letter-spacing: -0.03em;
-      max-width: 720px;
-      margin: 0 auto 16px;
-    }
-
-    .hero p {
-      color: var(--muted);
-      font-size: 1.05rem;
-      max-width: 600px;
-      margin: 0 auto 28px;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      background: var(--accent);
-      color: #062118;
-      font-weight: 700;
-      padding: 13px 26px;
-      border-radius: 10px;
-      transition: background 0.2s ease;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      color: #ffffff;
-    }
-
-    /* Offers Grid */
-    .section {
-      padding: 36px 0 64px;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .section-header h2 {
-      font-size: 1.5rem;
-      letter-spacing: -0.02em;
-    }
-
-    .section-header span {
-      color: var(--muted);
+      outline: none;
       font-size: 0.9rem;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-      gap: 20px;
+    .search-btn {
+      position: absolute;
+      right: 4px;
+      top: 4px;
+      background: var(--xmas-red);
+      border: none;
+      color: #fff;
+      padding: 7px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
     }
 
-    .card {
+    .search-btn:hover { background: var(--xmas-red-hover); }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      color: var(--text-dark);
+      text-decoration: none;
+    }
+
+    .nav-links a.active { color: var(--xmas-red); }
+
+    /* Primary E-Commerce Display Grid */
+    .portal-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr 240px;
+      gap: 16px;
+      margin-top: 16px;
+      margin-bottom: 40px;
+    }
+
+    /* Left Christmas Category Nav */
+    .sidebar-categories {
+      background: var(--surface);
+      border: 1px dashed var(--xmas-green);
+      border-radius: 12px;
+      padding: 12px;
+      align-self: start;
+    }
+
+    .categories-header {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--xmas-green);
+      border-bottom: 2px solid var(--bg-light);
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .category-item {
+      padding: 10px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .category-item:hover {
+      background: rgba(21, 128, 61, 0.05);
+      color: var(--xmas-green);
+    }
+
+    .category-item.active {
+      background: var(--xmas-green);
+      color: #ffffff;
+    }
+
+    /* Center Section - Banner Showcase & Scroller */
+    .hero-view-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Full Clickable vertical upward Scrolling banner viewport */
+    .scroller-outer {
+      height: 380px;
+      overflow: hidden;
+      position: relative;
+      border-radius: 14px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+
+    .scroller-viewport {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Standard Interactive Slide Banner */
+    .slide-link {
+      display: block;
+      height: 380px;
+      flex-shrink: 0;
+      text-decoration: none;
+      position: relative;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    /* Background patterns and custom graphics overlay per banner */
+    .slide-link::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(21, 128, 61, 0.94) 30%, rgba(194, 24, 7, 0.6) 100%);
+      z-index: 1;
+    }
+
+    .slide-link:nth-child(2)::before {
+      background: linear-gradient(135deg, rgba(194, 24, 7, 0.94) 30%, rgba(251, 191, 36, 0.5) 100%);
+    }
+
+    .slide-link:nth-child(3)::before {
+      background: linear-gradient(135deg, #1e3a8a 30%, rgba(21, 128, 61, 0.7) 100%);
+    }
+
+    .slide-link:nth-child(4)::before {
+      background: linear-gradient(135deg, #475569 30%, #0f172a 100%);
+    }
+
+    .slide-link:nth-child(5)::before {
+      background: linear-gradient(135deg, #881337 30%, rgba(194, 24, 7, 0.65) 100%);
+    }
+
+    .banner-inner {
+      position: relative;
+      z-index: 2;
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+      max-width: 540px;
+    }
+
+    .hero-badge {
+      background: var(--festive-gold);
+      color: #78350f;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 999px;
+      align-self: flex-start;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .banner-inner h1, .banner-inner h2 {
+      font-size: clamp(2rem, 3.5vw, 2.7rem);
+      line-height: 1.1;
+      font-weight: 850;
+      margin-bottom: 10px;
+      text-shadow: 1px 2px 4px rgba(0,0,0,0.25);
+    }
+
+    .banner-inner p {
+      color: rgba(255,255,255,0.92);
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.25);
+    }
+
+    .btn-action {
+      display: inline-block;
+      align-self: flex-start;
+      background: #ffffff;
+      color: var(--xmas-red);
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 10px 22px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: all 0.2s ease;
+    }
+
+    .slide-link:hover .btn-action {
+      background: var(--festive-gold);
+      color: #78350f;
+      transform: scale(1.03);
+    }
+
+    /* Embedded Big Christmas Logo on Banner Side */
+    .banner-art {
+      position: absolute;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: rgba(255,255,255, 0.08);
+      border: 2px dashed rgba(255,255,255, 0.15);
+      border-radius: 12px;
+      padding: 18px 22px;
+      z-index: 2;
+    }
+
+    .brand-hero-logo {
+      height: 52px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+    }
+
+    .banner-countdown {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--festive-gold);
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Right Sidebar - Offers Side Panel */
+    .info-panel {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 24px;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-self: start;
+    }
+
+    .info-box-festive {
+      background: rgba(194, 24, 7, 0.05);
+      border: 1px dashed var(--xmas-red);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .info-box-festive h3 {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--xmas-red);
+      margin-bottom: 6px;
+    }
+
+    .info-box-festive p {
+      font-size: 0.78rem;
+      color: var(--text-dark);
+      margin-bottom: 10px;
+    }
+
+    .badge-btn {
+      display: block;
+      background: var(--xmas-red);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 8px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .badge-btn:hover { background: var(--xmas-red-hover); }
+
+    .info-box-coupon {
+      background: rgba(21, 128, 61, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .coupon-code {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--xmas-green);
+      letter-spacing: 0.05em;
+      margin: 4px 0;
+    }
+
+    /* Subsections - Live Cards Under Scroller */
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      border-left: 4px solid var(--xmas-red);
+      padding-left: 8px;
+      color: var(--text-dark);
+      margin-top: 8px;
+    }
+
+    .offers-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .offer-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
-    .card:hover {
+    .offer-card:hover {
       transform: translateY(-3px);
-      border-color: var(--accent);
+      border-color: var(--xmas-red);
     }
 
-    .card-badge {
+    .gift-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: rgba(194, 24, 7, 0.08);
+      color: var(--xmas-red);
+      padding: 3px 8px;
+      border-radius: 4px;
       display: inline-block;
-      align-self: flex-start;
-      background: var(--badge-bg);
-      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .offer-card h3 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .offer-card p {
       font-size: 0.78rem;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 6px;
-      margin-bottom: 14px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
     }
 
-    .card h3 {
-      font-size: 1.22rem;
-      margin-bottom: 10px;
+    .perk-strip {
+      background: rgba(21, 128, 61, 0.05);
+      border-left: 3px solid var(--xmas-green);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--xmas-green);
+      padding: 6px 10px;
+      border-radius: 4px;
+      margin-bottom: 12px;
     }
 
-    .card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 18px;
-    }
-
-    .card-perk {
-      font-size: 0.88rem;
-      color: var(--text);
-      background: rgba(15, 23, 42, 0.55);
-      padding: 10px 12px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      border-left: 3px solid var(--accent);
-    }
-
-    .card-btn {
+    .claim-btn {
       display: block;
       text-align: center;
-      background: var(--accent);
-      color: #062118;
+      background: var(--xmas-red);
+      color: #ffffff;
+      font-size: 0.8rem;
       font-weight: 700;
-      padding: 12px 16px;
-      border-radius: 9px;
+      padding: 10px;
+      border-radius: 6px;
+      text-decoration: none;
       transition: background 0.2s ease;
     }
 
-    .card-btn:hover {
-      background: var(--accent-hover);
-      color: #ffffff;
-    }
+    .claim-btn:hover { background: var(--xmas-red-hover); }
 
-    /* Footer */
+    /* Footer section */
     footer {
       border-top: 1px solid var(--border);
       padding: 32px 0;
       text-align: center;
-      color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      background: var(--surface);
+      margin-top: 48px;
     }
 
     footer a {
-      color: var(--accent);
+      color: var(--xmas-green);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Mobile Responsive Overrides */
+    @media (max-width: 950px) {
+      .portal-grid { grid-template-columns: 1fr; }
+      .sidebar-categories, .info-panel { display: none; }
+      .scroller-outer { height: 280px; }
+      .slide-link { height: 280px; }
+      .banner-inner { padding: 24px; }
+      .banner-art { display: none; }
+      .offers-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Animated Snowy overlay -->
+  <div class="snow-container" id="snowContainer"></div>
+
   <header>
-    <div class="container nav">
-      <a href="#" class="brand">Easy<span>Lifestyle</span></a>
+    <div class="top-promo-bar">
+      🎄 ❄️ MERRY CHRISTMAS! Holiday Sale ❄️ <span>GET UP TO 90% OFF SPECIAL OFFERS</span> 🎁
+    </div>
+    <div class="container nav-wrapper">
+      <div class="logo-container">
+        <!-- Upload your renamed logo.png alongside index.html -->
+        <img class="logo-img" src="logo.png" alt="Easy Lifestyle" />
+      </div>
+      <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Search holiday offers, rewards, and special gift deals..." />
+        <button class="search-btn">Search</button>
+      </div>
       <nav class="nav-links">
-        <a href="#offers">Offers</a>
-        <a href="mailto:info@easylifestyle.site">Contact</a>
+        <a href="#offers" class="active">Exclusive Offers</a>
+        <a href="mailto:info@easylifestyle.site">Holiday Support</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section class="hero container">
-      <div class="pill">Verified Deals &amp; Rewards</div>
-      <h1>Curated Offers Built for Everyday Value</h1>
-      <p>
-        We test and organize straightforward bonuses, digital tools, and practical deals so you can claim real value without the guesswork.
-      </p>
-      <a href="#offers" class="btn-primary">Browse Active Offers</a>
-    </section>
+  <main class="container">
+    <div class="portal-grid">
+      
+      <!-- Left Column: Category Sidebar Picker -->
+      <aside class="sidebar-categories">
+        <div class="categories-header">
+          🎄 Categories
+        </div>
+        <ul style="list-style: none;">
+          <li class="category-item active" onclick="scrollBanners(0)">
+            <span>⛄ Grand Festive Pick</span>
+            <span>🌟</span>
+          </li>
+          <li class="category-item" onclick="scrollBanners(1)">
+            <span>🎁 Mega Gift Hampers</span>
+            <span>🎅</span>
+          </li>
+          <li class="category-item" onclick="scrollBanners(2)">
+            <span>🔔 Holiday Tech Specials</span>
+            <span>💻</span>
+          </li>
+          <li class="category-item" onclick="scrollBanners(3)">
+            <span>🦌 Cozy Winter Wear</span>
+            <span>🧣</span>
+          </li>
+          <li class="category-item" onclick="scrollBanners(4)">
+            <span>❄️ Christmas Clearance</span>
+            <span>✨</span>
+          </li>
+        </ul>
+      </aside>
 
-    <section id="offers" class="section container">
-      <div class="section-header">
-        <h2>Featured Offers</h2>
-        <span>Updated regularly &bull; Direct verified links</span>
-      </div>
+      <!-- Center Column: Animated Clicking Showcase -->
+      <section class="hero-view-col">
+        
+        <!-- Scrolling viewport where selection moves focus up & click events direct to landing links -->
+        <div class="scroller-outer">
+          <div class="scroller-viewport" id="scrollerViewport">
+            
+            <!-- Slide 0: Grand festive -->
+            <a href="#offers" class="slide-link">
+              <div class="banner-inner">
+                <span class="hero-badge">🎄 Holiday Special Launch</span>
+                <h1>Easy Lifestyle Christmas Special</h1>
+                <p>Curated and verified rewards tailored to save you more this winter season. Direct access, no guessing.</p>
+                <span class="btn-action">Claim Holiday Offers 🎁</span>
+              </div>
+              <div class="banner-art">
+                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
+                <div class="banner-countdown">🌟 Active Only</div>
+              </div>
+            </a>
 
-      <div class="grid">
-        <!-- Offer Card 1 -->
-        <article class="card">
-          <div>
-            <span class="card-badge">Featured Pick</span>
-            <h3>Offer Title #1</h3>
-            <p>
-              Replace this description with a clear 1–2 sentence overview of what the user gets and why it stands out.
-            </p>
-            <div class="card-perk">
-              <strong>Highlight:</strong> Instant signup bonus or zero-fee starter perk
-            </div>
+            <!-- Slide 1: Gift Hampers -->
+            <a href="https://example.com" class="slide-link" target="_blank" rel="noopener noreferrer">
+              <div class="banner-inner">
+                <span class="hero-badge">🎁 Holiday Giveaway Pack</span>
+                <h2>Mega Christmas Gift Hampers</h2>
+                <p>Grab handpicked giveaways, special bundles, and rewards from our top digital sponsors. Securing direct gift packs.</p>
+                <span class="btn-action">Get Your Christmas Pack ⛄</span>
+              </div>
+              <div class="banner-art">
+                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
+                <div class="banner-countdown">🎅 Santa's Special</div>
+              </div>
+            </a>
+
+            <!-- Slide 2: Holiday Tech Specials -->
+            <a href="https://example.com" class="slide-link" target="_blank" rel="noopener noreferrer">
+              <div class="banner-inner">
+                <span class="hero-badge">🔔 Limited Gift Pack</span>
+                <h2>Digital Subscriptions &amp; Tech Freebies</h2>
+                <p>Fully waived setup, holiday trials, and free gift card credits. Click now to browse digital deals.</p>
+                <span class="btn-action">Activate Tech Promos &rarr;</span>
+              </div>
+              <div class="banner-art">
+                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
+                <div class="banner-countdown">💻 Tech Exclusives</div>
+              </div>
+            </a>
+
+            <!-- Slide 3: Winter fashion deals -->
+            <a href="https://example.com" class="slide-link" target="_blank" rel="noopener noreferrer">
+              <div class="banner-inner">
+                <span class="hero-badge">🦌 Wardrobe Credit</span>
+                <h2>Warm Cozy Winter Wear</h2>
+                <p>Claim up to 80% discount codes, vouchers, and credit packs for warm clothes and outerwear for your entire family.</p>
+                <span class="btn-action">Claim Discount Now &rarr;</span>
+              </div>
+              <div class="banner-art">
+                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
+                <div class="banner-countdown">🧣 Season Spec</div>
+              </div>
+            </a>
+
+            <!-- Slide 4: Year End Clearance closeout -->
+            <a href="#offers" class="slide-link">
+              <div class="banner-inner">
+                <span class="hero-badge">❄️ Year-End Closeout</span>
+                <h2>The Christmas Clearance Hub</h2>
+                <p>Access final coupons, promotional credits, and holiday closeout specials before they expire.</p>
+                <span class="btn-action">Claim Limited Deals &rarr;</span>
+              </div>
+              <div class="banner-art">
+                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
+                <div class="banner-countdown">✨ Expiration Soon</div>
+              </div>
+            </a>
+
           </div>
-          <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-btn">
-            Claim Offer &rarr;
-          </a>
-        </article>
+        </div>
 
-        <!-- Offer Card 2 -->
-        <article class="card">
-          <div>
-            <span class="card-badge">Popular</span>
-            <h3>Offer Title #2</h3>
-            <p>
-              Replace this description with the key benefit, eligibility requirement, or discount details for this deal.
-            </p>
-            <div class="card-perk">
-              <strong>Highlight:</strong> Exclusive reward when joining through our link
-            </div>
-          </div>
-          <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-btn">
-            Get Started &rarr;
-          </a>
-        </article>
+        <h2 class="section-title" id="offers">Featured Special Holiday Offers</h2>
 
-        <!-- Offer Card 3 -->
-        <article class="card">
-          <div>
-            <span class="card-badge">Limited Time</span>
-            <h3>Offer Title #3</h3>
-            <p>
-              Replace this description with a concise summary of this tool, service, or seasonal promotion.
-            </p>
-            <div class="card-perk">
-              <strong>Highlight:</strong> Fast activation with no complicated steps
+        <div class="offers-row">
+          <!-- Card 1 -->
+          <article class="offer-card">
+            <div class="card-top">
+              <span class="gift-badge">🔥 Christmas Choice</span>
+              <h3>Premium Gift Pack</h3>
+              <p>Direct bonus reward when joining and creating a free seasonal account under our festive banner link.</p>
+              <div class="perk-strip">❄️ Instant Access Verification</div>
             </div>
-          </div>
-          <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-btn">
-            View Deal &rarr;
-          </a>
-        </article>
-      </div>
-    </section>
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="claim-btn">Claim Free Offer 🎁</a>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="offer-card">
+            <div class="card-top">
+              <span class="gift-badge">🤶 Christmas Exclusive</span>
+              <h3>Digital App Bundle</h3>
+              <p>Top mobile and digital services with fully waived setup fees and complimentary gift cards for holiday signup.</p>
+              <div class="perk-strip">🔔 100% Free Signup</div>
+            </div>
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="claim-btn">Get Holiday Pack 🎄</a>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="offer-card">
+            <div class="card-top">
+              <span class="gift-badge">🦌 Seasonal Deal</span>
+              <h3>Christmas Cash Credit</h3>
+              <p>Claim exclusive digital points and credits directly compatible with top online portals on our network.</p>
+              <div class="perk-strip">✨ Activates instantly online</div>
+            </div>
+            <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="claim-btn">Check Eligibility 🎁</a>
+          </article>
+        </div>
+
+      </section>
+
+      <!-- Right Column: Interactive Side Promotion Panel -->
+      <aside class="info-panel">
+        <div class="info-box-festive">
+          <h3>🎅 Santa's Quick Deals</h3>
+          <p>We compile verified rewards, digital bonuses, and winter clearance codes.</p>
+          <a href="#offers" class="badge-btn">Start Exploring</a>
+        </div>
+        <div class="info-box-coupon">
+          <p style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase;">Christmas Bonus Code</p>
+          <div class="coupon-code">XMAS90</div>
+          <p style="font-size: 0.65rem; color: var(--text-muted);">Use at partner checkout sites</p>
+        </div>
+      </aside>
+
+    </div>
   </main>
 
   <footer>
     <div class="container">
-      <p>
-        Questions or partnership inquiries? Reach us at
-        <a href="mailto:info@easylifestyle.site">info@easylifestyle.site</a>
-      </p>
-      <p style="margin-top: 8px;">&copy; 2026 Easy Lifestyle Desk &bull; easylifestyle.site</p>
+      <p>Questions or holiday partnership inquiries? Contact our team at <a href="mailto:info@easylifestyle.site">info@easylifestyle.site</a></p>
+      <p style="margin-top: 8px;">&copy; 2026 Easy Lifestyle &bull; easylifestyle.site &bull; Designed with 🎄 and ✨ for Christmas</p>
     </div>
   </footer>
+
+  <script>
+    // JS Upward Scrolling Control for Banners
+    function scrollBanners(index) {
+      const viewport = document.getElementById('scrollerViewport');
+      const offset = index * 380; // Size equal to scroller viewport banner height
+      
+      // Vertical translation transform
+      viewport.style.transform = `translateY(-${offset}px)`;
+      
+      // Toggle active states on side categories
+      const categoryItems = document.querySelectorAll('.category-item');
+      categoryItems.forEach((item, idx) => {
+        if (idx === index) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+
+    // Snowy Fall overlay generation
+    const snowContainer = document.getElementById('snowContainer');
+    const snowflakeCount = 45;
+
+    for (let i = 0; i < snowflakeCount; i++) {
+      const flake = document.createElement('div');
+      flake.className = 'snowflake';
+      flake.innerHTML = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
+      flake.style.left = `${Math.random() * 100}vw`;
+      flake.style.animationDuration = `${Math.random() * 8 + 6}s`; // slow natural drop rate
+      flake.style.animationDelay = `${Math.random() * -10}s`;
+      flake.style.opacity = Math.random();
+      flake.style.fontSize = `${Math.random() * 0.5 + 0.75}rem`;
+      snowContainer.appendChild(flake);
+    }
+  </script>
 </body>
 </html>
