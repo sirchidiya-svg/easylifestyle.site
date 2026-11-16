@@ -1,56 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easy Lifestyle | Coming Soon</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #1e1e1e 0%, #2d3436 100%);
-            color: #ffffff;
-            text-align: center;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #b2bec3;
-            max-width: 500px;
-            margin-bottom: 30px;
-            line-height: 1.5;
-        }
-        .btn {
-            padding: 12px 28px;
-            background-color: #00b894;
-            color: white;
-            text-decoration: none;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: background-color 0.3s ease;
-        }
-        .btn:hover {
-            background-color: #00cec9;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Easy Lifestyle — Curated Offers & Verified Deals</title>
+  <meta name="description" content="Explore curated offers, verified rewards, and practical digital deals from Easy Lifestyle." />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-hover: #263449;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #10b981;
+      --accent-hover: #059669;
+      --badge-bg: rgba(16, 185, 129, 0.15);
+      --border: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 18px 0;
+      position: sticky;
+      top: 0;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(8px);
+      z-index: 10;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 64px 0 48px;
+      text-align: center;
+    }
+
+    .pill {
+      display: inline-block;
+      background: var(--badge-bg);
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      max-width: 720px;
+      margin: 0 auto 16px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto 28px;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #062118;
+      font-weight: 700;
+      padding: 13px 26px;
+      border-radius: 10px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      color: #ffffff;
+    }
+
+    /* Offers Grid */
+    .section {
+      padding: 36px 0 64px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .section-header h2 {
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-header span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+    }
+
+    .card-badge {
+      display: inline-block;
+      align-self: flex-start;
+      background: var(--badge-bg);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+    }
+
+    .card h3 {
+      font-size: 1.22rem;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+    }
+
+    .card-perk {
+      font-size: 0.88rem;
+      color: var(--text);
+      background: rgba(15, 23, 42, 0.55);
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .card-btn {
+      display: block;
+      text-align: center;
+      background: var(--accent);
+      color: #062118;
+      font-weight: 700;
+      padding: 12px 16px;
+      border-radius: 9px;
+      transition: background 0.2s ease;
+    }
+
+    .card-btn:hover {
+      background: var(--accent-hover);
+      color: #ffffff;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--accent);
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="container nav">
+      <a href="#" class="brand">Easy<span>Lifestyle</span></a>
+      <nav class="nav-links">
+        <a href="#offers">Offers</a>
+        <a href="mailto:info@easylifestyle.site">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <h1>EASY LIFESTYLE</h1>
-    <p>We are currently building something awesome. Check back soon!</p>
-    
-    <a href="mailto:info@easylifestyle.site" class="btn">Contact Us</a>
+  <main>
+    <section class="hero container">
+      <div class="pill">Verified Deals &amp; Rewards</div>
+      <h1>Curated Offers Built for Everyday Value</h1>
+      <p>
+        We test and organize straightforward bonuses, digital tools, and practical deals so you can claim real value without the guesswork.
+      </p>
+      <a href="#offers" class="btn-primary">Browse Active Offers</a>
+    </section>
 
+    <section id="offers" class="section container">
+      <div class="section-header">
+        <h2>Featured Offers</h2>
+        <span>Updated regularly &bull; Direct verified links</span>
+      </div>
+
+      <div class="grid">
+        <!-- Offer Card 1 -->
+        <article class="card">
+          <div>
+            <span class="card-badge">Featured Pick</span>
+            <h3>Offer Title #1</h3>
+            <p>
+              Replace this description with a clear 1–2 sentence overview of what the user gets and why it stands out.
+            </p>
+            <div class="card-perk">
+              <strong>Highlight:</strong> Instant signup bonus or zero-fee starter perk
+            </div>
+          </div>
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-btn">
+            Claim Offer &rarr;
+          </a>
+        </article>
+
+        <!-- Offer Card 2 -->
+        <article class="card">
+          <div>
+            <span class="card-badge">Popular</span>
+            <h3>Offer Title #2</h3>
+            <p>
+              Replace this description with the key benefit, eligibility requirement, or discount details for this deal.
+            </p>
+            <div class="card-perk">
+              <strong>Highlight:</strong> Exclusive reward when joining through our link
+            </div>
+          </div>
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-btn">
+            Get Started &rarr;
+          </a>
+        </article>
+
+        <!-- Offer Card 3 -->
+        <article class="card">
+          <div>
+            <span class="card-badge">Limited Time</span>
+            <h3>Offer Title #3</h3>
+            <p>
+              Replace this description with a concise summary of this tool, service, or seasonal promotion.
+            </p>
+            <div class="card-perk">
+              <strong>Highlight:</strong> Fast activation with no complicated steps
+            </div>
+          </div>
+          <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="card-btn">
+            View Deal &rarr;
+          </a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        Questions or partnership inquiries? Reach us at
+        <a href="mailto:info@easylifestyle.site">info@easylifestyle.site</a>
+      </p>
+      <p style="margin-top: 8px;">&copy; 2026 Easy Lifestyle Desk &bull; easylifestyle.site</p>
+    </div>
+  </footer>
 </body>
 </html>
