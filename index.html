@@ -3,20 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Easy Lifestyle — Christmas Mega Sale & Festive Deals</title>
-  <meta name="description" content="Shop the ultimate Christmas Holiday special with up to 90% Off only at Easy Lifestyle." />
+  <title>Easy Lifestyle — Christmas Sale, SuperDeals & Verified Offers</title>
+  <meta name="description" content="Explore Today's Deals, SuperDeals, Big Save offers, and up to 90% off holiday clearance at Easy Lifestyle." />
+  <!-- Reference Fonts: Playfair Display (for 'Blooming Sale' & classic serif nav) + Plus Jakarta Sans & Inter (for AliExpress/LightInTheBox bold UI) + JetBrains Mono (for airport ticker cues) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,700;1,800&family=Plus+Jakarta+Sans:wght@600;700;800;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --xmas-red: #c21807;
-      --xmas-red-hover: #a11105;
-      --xmas-green: #15803d;
-      --xmas-green-hover: #166534;
-      --festive-gold: #fbbf24;
-      --bg-light: #f4f6f8;
+      --green-pastel: #d9f0be;
+      --green-mid: #b8e28a;
+      --green-dark: #1f511e;
+      --green-brand: #15803d;
+      --red-brand: #d91e2a;
+      --red-bright: #ff1e3c;
+      --red-dark: #9e141d;
+      --yellow-hero: #f6ea37;
+      --gold-accent: #fbbf24;
+      --bg-page: #f5f5f5;
       --surface: #ffffff;
-      --border: #e2e8f0;
-      --text-dark: #1e293b;
-      --text-muted: #64748b;
+      --text-main: #191919;
+      --text-muted: #666666;
+      --border-light: #e8e8e8;
+      --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-script: 'Dancing Script', cursive;
     }
 
     * {
@@ -26,751 +37,1836 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
-      background-color: var(--bg-light);
-      color: var(--text-dark);
-      line-height: 1.4;
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.45;
       overflow-x: hidden;
     }
 
-    /* Snowflake Fall Effect overlay */
-    .snow-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 99;
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
-    .snowflake {
-      position: absolute;
-      color: #fff;
-      font-size: 1.1rem;
-      opacity: 0.8;
-      user-select: none;
-      pointer-events: none;
-      animation: fall linear infinite;
-    }
-
-    @keyframes fall {
-      0% { top: -10px; transform: translateX(0) rotate(0deg); }
-      100% { top: 105vh; transform: translateX(80px) rotate(360deg); }
-    }
-
-    /* Top Christmas Ticker Bar */
-    .top-promo-bar {
-      background: var(--xmas-green);
+    /* ==========================================================================
+       AIRPORT-STYLE RIGHT-TO-LEFT SCROLLING OFFERS TICKER BANNER
+       ========================================================================== */
+    .airport-ticker-bar {
+      background: linear-gradient(90deg, #0d2612 0%, #15803d 50%, #0d2612 100%);
       color: #ffffff;
-      font-size: 0.82rem;
-      font-weight: 600;
-      text-align: center;
-      padding: 6px 10px;
-      letter-spacing: 0.03em;
+      border-bottom: 2px solid var(--gold-accent);
+      overflow: hidden;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.18);
     }
 
-    .top-promo-bar span {
-      color: var(--festive-gold);
-      animation: blink 1.2s infinite;
+    .airport-badge {
+      background: var(--red-brand);
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0 14px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      z-index: 2;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.3);
     }
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+    .airport-pulse {
+      width: 8px;
+      height: 8px;
+      background: var(--gold-accent);
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulseGlow 1s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      from { opacity: 0.4; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1.2); }
+    }
+
+    .airport-marquee-viewport {
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .airport-marquee-track {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+      will-change: transform;
+      animation: airportRightToLeft 28s linear infinite;
+    }
+
+    .airport-marquee-viewport:hover .airport-marquee-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes airportRightToLeft {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 48px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+    }
+
+    .ticker-code {
+      background: var(--gold-accent);
+      color: #111;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.76rem;
+    }
+
+    /* ==========================================================================
+       HEADER & NAVIGATION (AliExpress + LightInTheBox Reference Style)
+       ========================================================================== */
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 40px;
+      z-index: 900;
     }
 
     .container {
-      max-width: 1240px;
+      max-width: 1260px;
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 0 16px;
     }
 
-    /* Global Header Area */
-    header {
-      background: var(--surface);
-      border-bottom: 3px solid var(--xmas-red);
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    }
-
-    .nav-wrapper {
+    .header-top {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
+      padding: 14px 0 10px;
+      gap: 20px;
     }
 
-    .logo-container {
+    /* Brand Logo matching AliExpress / LightInTheBox placement */
+    .brand-logo {
       display: flex;
       align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
     }
 
-    /* Primary Branding Logo */
-    .logo-img {
-      height: 54px;
+    .brand-logo img {
+      height: 46px;
+      width: auto;
       object-fit: contain;
     }
 
-    .search-bar {
-      flex: 1;
-      max-width: 500px;
-      margin: 0 20px;
+    .brand-text-fallback {
       display: flex;
+      align-items: baseline;
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .brand-text-fallback .easy-box {
+      background: var(--red-brand);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-right: 3px;
+      font-family: var(--font-sans);
+    }
+
+    .brand-text-fallback .lifestyle-cursive {
+      font-family: var(--font-script);
+      color: var(--green-brand);
+      font-size: 2.1rem;
+    }
+
+    /* Search Bar (Pill style from Reference 2 & 3) */
+    .search-wrapper {
+      flex: 1;
+      max-width: 620px;
       position: relative;
+      display: flex;
+      align-items: center;
     }
 
     .search-input {
       width: 100%;
-      padding: 10px 16px;
-      border: 2px solid var(--xmas-green);
+      height: 42px;
+      border: 2px solid #191919;
       border-radius: 999px;
-      outline: none;
+      padding: 0 64px 0 20px;
       font-size: 0.9rem;
+      font-family: var(--font-sans);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--green-brand);
     }
 
     .search-btn {
       position: absolute;
-      right: 4px;
-      top: 4px;
-      background: var(--xmas-red);
-      border: none;
+      right: 3px;
+      top: 3px;
+      bottom: 3px;
+      width: 54px;
+      background: #191919;
       color: #fff;
-      padding: 7px 18px;
+      border: none;
       border-radius: 999px;
       cursor: pointer;
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    .search-btn:hover { background: var(--xmas-red-hover); }
-
-    .nav-links {
-      display: flex;
-      gap: 18px;
-      font-size: 0.88rem;
-      font-weight: 700;
-    }
-
-    .nav-links a {
-      color: var(--text-dark);
-      text-decoration: none;
-    }
-
-    .nav-links a.active { color: var(--xmas-red); }
-
-    /* Primary E-Commerce Display Grid */
-    .portal-grid {
-      display: grid;
-      grid-template-columns: 240px 1fr 240px;
-      gap: 16px;
-      margin-top: 16px;
-      margin-bottom: 40px;
-    }
-
-    /* Left Christmas Category Nav */
-    .sidebar-categories {
-      background: var(--surface);
-      border: 1px dashed var(--xmas-green);
-      border-radius: 12px;
-      padding: 12px;
-      align-self: start;
-    }
-
-    .categories-header {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: var(--xmas-green);
-      border-bottom: 2px solid var(--bg-light);
-      padding-bottom: 8px;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-    }
-
-    .category-item {
-      padding: 10px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.82rem;
-      font-weight: 600;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      transition: all 0.2s ease;
-      color: var(--text-dark);
+      justify-content: center;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+
+    .search-btn:hover {
+      background: var(--red-brand);
+    }
+
+    /* Right Header Actions */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 0.78rem;
+      flex-shrink: 0;
+    }
+
+    .action-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+    }
+
+    .action-item:hover {
+      color: var(--red-brand);
+    }
+
+    .action-icon {
+      font-size: 1.25rem;
+    }
+
+    .cart-badge {
+      background: #191919;
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.7rem;
+      padding: 1px 7px;
+      border-radius: 999px;
+    }
+
+    /* Sub-Navigation Bar (Combining AliExpress Pill & LightInTheBox Serif Links) */
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 8px 0 12px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .header-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .all-categories-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #f3f3f3;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .all-categories-pill:hover {
+      background: #e5e5e5;
+    }
+
+    .nav-link-serif {
+      font-family: var(--font-serif);
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #222;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+
+    .nav-link-serif:hover {
+      color: var(--green-brand);
+    }
+
+    .nav-link-serif.highlight-red {
+      color: var(--red-brand);
+      font-family: var(--font-sans);
+      font-weight: 800;
+    }
+
+    /* ==========================================================================
+       HERO BANNER 1: ALIEXPRESS "BLOOMING SALE" GREEN/WHITE/RED REFERENCE STYLE
+       ========================================================================== */
+    .blooming-hero-banner {
+      background: linear-gradient(90deg, #d8efbe 0%, #cdeaa9 55%, #d8efbe 100%);
+      padding: 24px 0 28px;
+      border-bottom: 1px solid #c2e29c;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blooming-grid {
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .sale-timer-line {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #111;
       margin-bottom: 4px;
     }
 
-    .category-item:hover {
-      background: rgba(21, 128, 61, 0.05);
-      color: var(--xmas-green);
-    }
-
-    .category-item.active {
-      background: var(--xmas-green);
-      color: #ffffff;
-    }
-
-    /* Center Section - Banner Showcase & Scroller */
-    .hero-view-col {
+    .blooming-heading-row {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      cursor: pointer;
     }
 
-    /* Full Clickable vertical upward Scrolling banner viewport */
-    .scroller-outer {
-      height: 380px;
-      overflow: hidden;
-      position: relative;
-      border-radius: 14px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-      border: 1px solid var(--border);
+    /* Exact Bold Italic Serif Font from Reference 3 ('Blooming Sale') */
+    .blooming-serif-title {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(2.1rem, 4vw, 3.1rem);
+      color: #235519;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
     }
 
-    .scroller-viewport {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    /* Standard Interactive Slide Banner */
-    .slide-link {
-      display: block;
-      height: 380px;
-      flex-shrink: 0;
-      text-decoration: none;
-      position: relative;
-      color: #ffffff;
-      overflow: hidden;
-    }
-
-    /* Background patterns and custom graphics overlay per banner */
-    .slide-link::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(21, 128, 61, 0.94) 30%, rgba(194, 24, 7, 0.6) 100%);
-      z-index: 1;
-    }
-
-    .slide-link:nth-child(2)::before {
-      background: linear-gradient(135deg, rgba(194, 24, 7, 0.94) 30%, rgba(251, 191, 36, 0.5) 100%);
-    }
-
-    .slide-link:nth-child(3)::before {
-      background: linear-gradient(135deg, #1e3a8a 30%, rgba(21, 128, 61, 0.7) 100%);
-    }
-
-    .slide-link:nth-child(4)::before {
-      background: linear-gradient(135deg, #475569 30%, #0f172a 100%);
-    }
-
-    .slide-link:nth-child(5)::before {
-      background: linear-gradient(135deg, #881337 30%, rgba(194, 24, 7, 0.65) 100%);
-    }
-
-    .banner-inner {
-      position: relative;
-      z-index: 2;
-      padding: 36px;
-      display: flex;
-      flex-direction: column;
+    .arrow-circle-green {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #235519;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
       justify-content: center;
-      height: 100%;
-      max-width: 540px;
+      font-size: 0.9rem;
+      font-weight: 900;
     }
 
-    .hero-badge {
-      background: var(--festive-gold);
-      color: #78350f;
-      font-size: 0.75rem;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 999px;
-      align-self: flex-start;
-      text-transform: uppercase;
-      margin-bottom: 12px;
+    /* 3 Mini Category/Product Cards Inside Hero Banner (Reference 3) */
+    .hero-mini-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
     }
 
-    .banner-inner h1, .banner-inner h2 {
-      font-size: clamp(2rem, 3.5vw, 2.7rem);
-      line-height: 1.1;
-      font-weight: 850;
-      margin-bottom: 10px;
-      text-shadow: 1px 2px 4px rgba(0,0,0,0.25);
-    }
-
-    .banner-inner p {
-      color: rgba(255,255,255,0.92);
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.25);
-    }
-
-    .btn-action {
-      display: inline-block;
-      align-self: flex-start;
+    .hero-mini-card {
       background: #ffffff;
-      color: var(--xmas-red);
+      border-radius: 6px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 118px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-mini-card.pastel-purple { background: #f3ecff; }
+    .hero-mini-card.pastel-peach  { background: #ffe4d1; }
+    .hero-mini-card.pastel-blue   { background: #e1f3fe; }
+
+    .hero-mini-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .mini-card-img {
+      width: 74px;
+      height: 84px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .mini-card-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 86px;
+      padding-left: 10px;
+      flex: 1;
+    }
+
+    .mini-card-title {
+      font-size: 0.82rem;
       font-weight: 800;
-      font-size: 0.88rem;
-      padding: 10px 22px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      transition: all 0.2s ease;
+      line-height: 1.2;
     }
 
-    .slide-link:hover .btn-action {
-      background: var(--festive-gold);
-      color: #78350f;
-      transform: scale(1.03);
+    .pastel-purple .mini-card-title { color: #5b21b6; }
+    .pastel-peach .mini-card-title  { color: #7c2d12; }
+    .pastel-blue .mini-card-title   { color: #0369a1; }
+
+    .mini-price-tag {
+      background: #333c42;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 2px;
+      align-self: flex-start;
+      white-space: nowrap;
     }
 
-    /* Embedded Big Christmas Logo on Banner Side */
-    .banner-art {
-      position: absolute;
-      right: 32px;
-      top: 50%;
-      transform: translateY(-50%);
+    /* Right Side of Green Banner: Festive Gift Bag & 60%/90% Circle (Reference 3) */
+    .blooming-right-promo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .gift-bag-box {
+      background: linear-gradient(145deg, #c21807 0%, #8b0000 100%);
+      color: #fff;
+      padding: 20px 26px;
+      border-radius: 10px 10px 4px 4px;
+      box-shadow: -10px 12px 24px rgba(0,0,0,0.18);
+      position: relative;
+      min-width: 230px;
+      border-top: 5px solid var(--gold-accent);
+    }
+
+    .gift-bag-box h4 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .gift-bag-box .big-day {
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--gold-accent);
+    }
+
+    .discount-circle-green {
+      width: 108px;
+      height: 108px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #eef9d9 0%, #bfe489 100%);
+      border: 3px solid #fff;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
       display: flex;
       flex-direction: column;
       align-items: center;
-      text-align: center;
-      background: rgba(255,255,255, 0.08);
-      border: 2px dashed rgba(255,255,255, 0.15);
-      border-radius: 12px;
-      padding: 18px 22px;
+      justify-content: center;
+      color: #1c4d14;
+      margin-left: -20px;
       z-index: 2;
     }
 
-    .brand-hero-logo {
-      height: 52px;
-      object-fit: contain;
-      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
-    }
-
-    .banner-countdown {
-      font-size: 0.72rem;
+    .discount-circle-green span.up-to {
+      font-size: 0.68rem;
       font-weight: 800;
-      color: var(--festive-gold);
-      margin-top: 8px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
 
-    /* Right Sidebar - Offers Side Panel */
-    .info-panel {
+    .discount-circle-green strong {
+      font-size: 1.85rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    /* ==========================================================================
+       TODAY'S DEALS SECTION (AliExpress Reference 2 & 3: SuperDeals + Big Save)
+       ========================================================================== */
+    .todays-deals-section {
+      padding: 28px 0 18px;
+    }
+
+    .section-center-heading {
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #191919;
+      margin-bottom: 22px;
+      letter-spacing: -0.02em;
+    }
+
+    .deals-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .deal-panel-box {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-light);
       border-radius: 12px;
-      padding: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      align-self: start;
+      padding: 22px 20px;
     }
 
-    .info-box-festive {
-      background: rgba(194, 24, 7, 0.05);
-      border: 1px dashed var(--xmas-red);
-      border-radius: 8px;
-      padding: 12px;
+    .deal-panel-header {
       text-align: center;
+      margin-bottom: 18px;
     }
 
-    .info-box-festive h3 {
-      font-size: 0.88rem;
+    .deal-panel-header h3 {
+      font-size: 1.35rem;
       font-weight: 800;
-      color: var(--xmas-red);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
-    .info-box-festive p {
-      font-size: 0.78rem;
-      color: var(--text-dark);
-      margin-bottom: 10px;
-    }
-
-    .badge-btn {
-      display: block;
-      background: var(--xmas-red);
-      color: #ffffff;
+    .deal-pill-timer {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff1f1;
+      color: #191919;
+      font-size: 0.82rem;
       font-weight: 700;
-      font-size: 0.78rem;
-      padding: 8px;
-      border-radius: 6px;
-      text-decoration: none;
+      padding: 5px 14px;
+      border-radius: 999px;
     }
 
-    .badge-btn:hover { background: var(--xmas-red-hover); }
-
-    .info-box-coupon {
-      background: rgba(21, 128, 61, 0.04);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px;
-      text-align: center;
-    }
-
-    .coupon-code {
+    .deal-pill-timer .red-dot {
+      color: var(--red-brand);
       font-size: 0.95rem;
-      font-weight: 800;
-      color: var(--xmas-green);
-      letter-spacing: 0.05em;
-      margin: 4px 0;
     }
 
-    /* Subsections - Live Cards Under Scroller */
-    .section-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      border-left: 4px solid var(--xmas-red);
-      padding-left: 8px;
-      color: var(--text-dark);
-      margin-top: 8px;
-    }
-
-    .offers-row {
+    .panel-products-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 14px;
     }
 
-    .offer-card {
+    .ae-product-card {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s;
+    }
+
+    .ae-product-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .ae-img-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #f7f7f7;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 10px;
+      border: 1px solid #efefef;
+    }
+
+    .ae-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .ae-product-card:hover .ae-img-wrap img {
+      transform: scale(1.05);
+    }
+
+    .ae-discount-tag {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--red-brand);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .ae-product-title {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #222;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 6px;
+      min-height: 2.4em;
+    }
+
+    .ae-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .ae-price-current {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--red-brand);
+    }
+
+    .ae-price-old {
+      font-size: 0.76rem;
+      color: #999;
+      text-decoration: line-through;
+    }
+
+    /* ==========================================================================
+       LIGHTINTHEBOX 3-COLUMN CLEARANCE & SIDEBAR SECTION (Reference 1)
+       ========================================================================== */
+    .litb-portal-section {
+      padding: 18px 0 32px;
+    }
+
+    .litb-grid {
+      display: grid;
+      grid-template-columns: 210px 1fr 250px;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .litb-sidebar {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
+      border: 1px solid var(--border-light);
+      padding: 12px 16px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.2s ease, border-color 0.2s ease;
     }
 
-    .offer-card:hover {
-      transform: translateY(-3px);
-      border-color: var(--xmas-red);
+    .litb-sidebar-item {
+      font-size: 0.82rem;
+      color: #333;
+      padding: 6px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: color 0.15s, padding-left 0.15s;
     }
 
-    .gift-badge {
-      font-size: 0.68rem;
+    .litb-sidebar-item:hover {
+      color: var(--red-brand);
+      padding-left: 4px;
       font-weight: 700;
-      background: rgba(194, 24, 7, 0.08);
-      color: var(--xmas-red);
-      padding: 3px 8px;
-      border-radius: 4px;
-      display: inline-block;
-      margin-bottom: 8px;
     }
 
-    .offer-card h3 {
+    /* Center 90% OFF Clearance Banner (Reference 1) */
+    .litb-clearance-banner {
+      background: radial-gradient(circle at center, #fff35c 0%, #f3df24 100%);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      overflow: hidden;
+      min-height: 360px;
+    }
+
+    .clearance-ribbon {
+      background: #a51624;
+      color: #fff;
+      font-size: 1.55rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      padding: 4px 28px;
+      transform: rotate(-3deg);
+      margin-bottom: 6px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .ninety-off-lockup {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 0.85;
+      color: #a51624;
+      text-shadow: 3px 4px 0 #ffffff;
+      margin: 6px 0 12px;
+      position: relative;
+    }
+
+    .ninety-off-lockup .up-to-pill {
+      position: absolute;
+      left: -18px;
+      top: 36%;
+      background: #fff;
+      color: #222;
+      font-size: 0.88rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+      text-shadow: none;
+    }
+
+    .ninety-off-lockup .big-digits {
+      font-size: clamp(5.5rem, 10vw, 8.5rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .ninety-off-lockup .pct-stack {
+      display: flex;
+      flex-direction: column;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      font-weight: 900;
+      margin-left: 4px;
+    }
+
+    .shipping-subtext {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #7c121b;
+      margin-bottom: 10px;
+    }
+
+    .shop-now-black-btn {
+      background: #111111;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 8px 34px;
+      border-radius: 4px;
+    }
+
+    /* Right Welcome & App Promo Stack (Reference 1) */
+    .litb-right-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .welcome-red-card {
+      background: linear-gradient(180deg, #ef665b 0%, #e03f38 100%);
+      color: #fff;
+      padding: 18px 16px;
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .welcome-red-card h4 {
       font-size: 0.92rem;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
-    .offer-card p {
+    .welcome-red-card p {
+      font-size: 0.76rem;
+      opacity: 0.95;
+      margin-bottom: 14px;
+    }
+
+    .welcome-btn-white {
+      background: #ffffff;
+      color: #333;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 8px;
+      border-radius: 3px;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .welcome-btn-tint {
+      background: rgba(255,255,255,0.78);
+      color: #333;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 8px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .qr-promo-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      padding: 14px;
+      text-align: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .qr-promo-card h5 {
       font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-bottom: 12px;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 10px;
     }
 
-    .perk-strip {
-      background: rgba(21, 128, 61, 0.05);
-      border-left: 3px solid var(--xmas-green);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--xmas-green);
-      padding: 6px 10px;
-      border-radius: 4px;
-      margin-bottom: 12px;
+    .qr-promo-card h5 span {
+      color: var(--red-brand);
     }
 
-    .claim-btn {
-      display: block;
-      text-align: center;
-      background: var(--xmas-red);
-      color: #ffffff;
+    .qr-box-sim {
+      width: 104px;
+      height: 104px;
+      border: 3px solid #111;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: repeating-linear-gradient(45deg, #111 0, #111 4px, #fff 4px, #fff 8px);
+      position: relative;
+    }
+
+    .qr-box-sim span {
+      background: var(--red-brand);
+      color: #fff;
+      font-weight: 900;
       font-size: 0.8rem;
-      font-weight: 700;
-      padding: 10px;
-      border-radius: 6px;
-      text-decoration: none;
-      transition: background 0.2s ease;
+      padding: 4px 6px;
+      border: 2px solid #fff;
     }
 
-    .claim-btn:hover { background: var(--xmas-red-hover); }
+    /* Most-loved Categories Grid (Reference 1) */
+    .most-loved-heading {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #222;
+      border-left: 4px solid var(--red-brand);
+      padding-left: 10px;
+      margin: 26px 0 16px;
+    }
 
-    /* Footer section */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 0;
-      text-align: center;
+    .most-loved-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 48px;
+    }
+
+    .loved-card {
+      position: relative;
+      height: 190px;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid var(--border-light);
+    }
+
+    .loved-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s;
+    }
+
+    .loved-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .loved-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.05) 30%, rgba(0,0,0,0.65) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+      color: #fff;
+    }
+
+    .loved-overlay h4 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .loved-overlay span {
+      font-size: 0.78rem;
+      color: var(--gold-accent);
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    /* ==========================================================================
+       IN-PAGE PRODUCT DETAIL VIEW (Loads in Same Webpage When Any Product Is Clicked)
+       ========================================================================== */
+    #productDetailView {
+      display: none;
+      padding: 20px 0 60px;
+      animation: fadeInView 0.28s ease;
+    }
+
+    @keyframes fadeInView {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Dedicated Product-Page Airport LED Banner */
+    .product-airport-board {
+      background: #111827;
+      color: #fef08a;
+      border: 2px solid var(--green-brand);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      height: 46px;
+      margin-bottom: 18px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+    }
+
+    .product-airport-label {
+      background: var(--green-brand);
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.78rem;
+      padding: 0 16px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      z-index: 2;
+    }
+
+    .product-airport-track {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: airportRightToLeft 20s linear infinite;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .product-airport-track span {
+      margin-right: 55px;
+    }
+
+    .back-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .back-home-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #191919;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.86rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .back-home-btn:hover {
+      background: var(--green-brand);
+    }
+
+    .breadcrumb-trail {
       font-size: 0.82rem;
       color: var(--text-muted);
-      background: var(--surface);
-      margin-top: 48px;
     }
 
-    footer a {
-      color: var(--xmas-green);
-      text-decoration: none;
+    .product-detail-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 440px 1fr;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+
+    .pd-gallery-main {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+      background: #fafafa;
+      margin-bottom: 12px;
+    }
+
+    .pd-gallery-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pd-Badge-Row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .pd-choice-badge {
+      background: var(--green-pastel);
+      color: var(--green-dark);
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.86rem;
+    }
+
+    .pd-superdeal-badge {
+      background: var(--red-brand);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.76rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .pd-title {
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .pd-rating-line {
+      font-size: 0.86rem;
+      color: #444;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pd-price-banner {
+      background: linear-gradient(90deg, #fff0f1 0%, #ffe4e6 100%);
+      border-left: 5px solid var(--red-brand);
+      padding: 16px 20px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pd-big-price {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--red-brand);
+    }
+
+    .pd-old-price {
+      font-size: 0.95rem;
+      color: #888;
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
+
+    .pd-coupons-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .pd-coupon-pill {
+      border: 1px dashed var(--red-brand);
+      background: #fff5f5;
+      color: var(--red-brand);
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .pd-description {
+      font-size: 0.92rem;
+      color: #444;
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+
+    .pd-perks-box {
+      background: #f3faf4;
+      border: 1px solid #ccebd1;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      font-size: 0.84rem;
+      color: var(--green-dark);
+    }
+
+    .pd-perks-box div {
+      margin-bottom: 5px;
       font-weight: 600;
     }
 
-    /* Mobile Responsive Overrides */
-    @media (max-width: 950px) {
-      .portal-grid { grid-template-columns: 1fr; }
-      .sidebar-categories, .info-panel { display: none; }
-      .scroller-outer { height: 280px; }
-      .slide-link { height: 280px; }
-      .banner-inner { padding: 24px; }
-      .banner-art { display: none; }
-      .offers-row { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+    .pd-actions-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-claim-now {
+      flex: 1;
+      min-width: 200px;
+      background: var(--red-brand);
+      color: #fff;
+      border: none;
+      padding: 15px 24px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-claim-now:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-add-cart {
+      flex: 1;
+      min-width: 180px;
+      background: #191919;
+      color: #fff;
+      border: none;
+      padding: 15px 24px;
+      border-radius: 999px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-add-cart:hover {
+      background: var(--green-brand);
+    }
+
+    /* Footer */
+    footer {
+      background: #ffffff;
+      border-top: 1px solid var(--border-light);
+      padding: 36px 0;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    footer a {
+      color: var(--green-brand);
+      font-weight: 700;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 980px) {
+      .blooming-grid,
+      .deals-dual-grid,
+      .litb-grid,
+      .product-detail-card {
+        grid-template-columns: 1fr;
+      }
+      .most-loved-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .header-actions {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-mini-cards,
+      .panel-products-row,
+      .most-loved-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Animated Snowy overlay -->
-  <div class="snow-container" id="snowContainer"></div>
-
-  <header>
-    <div class="top-promo-bar">
-      🎄 ❄️ MERRY CHRISTMAS! Holiday Sale ❄️ <span>GET UP TO 90% OFF SPECIAL OFFERS</span> 🎁
+  <!-- ========================================================================
+       TOP AIRPORT-STYLE RIGHT-TO-LEFT SCROLLING OFFERS BANNER
+       ======================================================================== -->
+  <div class="airport-ticker-bar">
+    <div class="airport-badge">
+      <span class="airport-pulse"></span>
+      LIVE OFFERS
     </div>
-    <div class="container nav-wrapper">
-      <div class="logo-container">
-        <!-- Upload your renamed logo.png alongside index.html -->
-        <img class="logo-img" src="logo.png" alt="Easy Lifestyle" />
+    <div class="airport-marquee-viewport">
+      <div class="airport-marquee-track" id="globalAirportTicker">
+        <!-- Duplicated set for seamless infinite right-to-left airport scroll -->
+        <div class="ticker-item" onclick="openProductById('p1')">
+          ✈️ CHRISTMAS BLOOMING SALE: UP TO 90% OFF STOREWIDE <span class="ticker-code">CODE: XMAS90</span>
+        </div>
+        <div class="ticker-item" onclick="openProductById('p2')">
+          🎁 SUPERDEALS FLASH DROP: SMART GPS WATCH &amp; EARBUDS BUNDLE — 75% OFF <span class="ticker-code">CLAIM NOW</span>
+        </div>
+        <div class="ticker-item" onclick="openProductById('p3')">
+          ⚡ 24-HOUR EXPRESS SHIPPING + FREE HOLIDAY GIFT VOUCHER ON ALL VERIFIED OFFERS <span class="ticker-code">CODE: 24BF04</span>
+        </div>
+        <div class="ticker-item" onclick="openProductById('p4')">
+          🌟 NEW USER REWARD: INSTANT $15 BONUS CREDIT AT CHECKOUT <span class="ticker-code">EASY2026</span>
+        </div>
+        <!-- Seamless Loop Repeat -->
+        <div class="ticker-item" onclick="openProductById('p1')">
+          ✈️ CHRISTMAS BLOOMING SALE: UP TO 90% OFF STOREWIDE <span class="ticker-code">CODE: XMAS90</span>
+        </div>
+        <div class="ticker-item" onclick="openProductById('p2')">
+          🎁 SUPERDEALS FLASH DROP: SMART GPS WATCH &amp; EARBUDS BUNDLE — 75% OFF <span class="ticker-code">CLAIM NOW</span>
+        </div>
+        <div class="ticker-item" onclick="openProductById('p3')">
+          ⚡ 24-HOUR EXPRESS SHIPPING + FREE HOLIDAY GIFT VOUCHER ON ALL VERIFIED OFFERS <span class="ticker-code">CODE: 24BF04</span>
+        </div>
+        <div class="ticker-item" onclick="openProductById('p4')">
+          🌟 NEW USER REWARD: INSTANT $15 BONUS CREDIT AT CHECKOUT <span class="ticker-code">EASY2026</span>
+        </div>
       </div>
-      <div class="search-bar">
-        <input type="text" class="search-input" placeholder="Search holiday offers, rewards, and special gift deals..." />
-        <button class="search-btn">Search</button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MAIN HEADER (AliExpress + LightInTheBox Reference Structure)
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-top">
+        <div class="brand-logo" onclick="showHomeView()">
+          <img src="logo.png" alt="Easy Lifestyle" onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex';" />
+          <div class="brand-text-fallback" id="fallbackLogo" style="display:flex;">
+            <span class="easy-box">Easy</span><span class="lifestyle-cursive">Lifestyle</span>
+          </div>
+        </div>
+
+        <div class="search-wrapper">
+          <input type="text" id="searchInput" class="search-input" placeholder="Search Christmas SuperDeals, phones, fashion, or verified offers..." oninput="handleSearch(this.value)" />
+          <button class="search-btn" onclick="handleSearch(document.getElementById('searchInput').value)">🔍</button>
+        </div>
+
+        <div class="header-actions">
+          <div class="action-item" onclick="openProductById('p1')">
+            <span class="action-icon">📱</span>
+            <div>
+              <div style="font-weight:800;">APP Only! Get</div>
+              <div style="color:var(--red-brand);font-weight:700;">Up To 60% Off</div>
+            </div>
+          </div>
+          <div class="action-item">
+            <span>🇳🇬 EN / USD</span>
+          </div>
+          <div class="action-item" onclick="window.location.href='mailto:info@easylifestyle.site'">
+            <span class="action-icon">👤</span>
+            <div>
+              <div style="color:var(--text-muted);">Welcome</div>
+              <div style="font-weight:800;">Sign in / Register</div>
+            </div>
+          </div>
+          <div class="action-item" onclick="openProductById('p6')">
+            <span class="action-icon">🛒</span>
+            <span class="cart-badge" id="cartCountBadge">0</span>
+            <span style="font-weight:800;">Cart</span>
+          </div>
+        </div>
       </div>
-      <nav class="nav-links">
-        <a href="#offers" class="active">Exclusive Offers</a>
-        <a href="mailto:info@easylifestyle.site">Holiday Support</a>
+
+      <!-- Serif & Sans Sub-Navigation Bar from References -->
+      <nav class="header-nav">
+        <div class="all-categories-pill" onclick="showHomeView()">
+          ☰ All Categories ▾
+        </div>
+        <span class="nav-link-serif highlight-red" onclick="showHomeView()">SuperDeals</span>
+        <span class="nav-link-serif" onclick="openProductById('p1')">Men's Selection</span>
+        <span class="nav-link-serif" onclick="openProductById('p4')">New Arrivals</span>
+        <span class="nav-link-serif" onclick="openProductById('p6')">Best Sellers</span>
+        <span class="nav-link-serif" onclick="openProductById('p5')">Women's Chic</span>
+        <span class="nav-link-serif highlight-red" onclick="openProductById('p2')">Clearance</span>
+        <span class="nav-link-serif" onclick="openProductById('p3')">Home &amp; Garden</span>
+        <span class="nav-link-serif" onclick="openProductById('p8')">Consumer Electronics</span>
+        <span class="nav-link-serif" onclick="openProductById('p9')">Personalized Gifts</span>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <div class="portal-grid">
-      
-      <!-- Left Column: Category Sidebar Picker -->
-      <aside class="sidebar-categories">
-        <div class="categories-header">
-          🎄 Categories
-        </div>
-        <ul style="list-style: none;">
-          <li class="category-item active" onclick="scrollBanners(0)">
-            <span>⛄ Grand Festive Pick</span>
-            <span>🌟</span>
-          </li>
-          <li class="category-item" onclick="scrollBanners(1)">
-            <span>🎁 Mega Gift Hampers</span>
-            <span>🎅</span>
-          </li>
-          <li class="category-item" onclick="scrollBanners(2)">
-            <span>🔔 Holiday Tech Specials</span>
-            <span>💻</span>
-          </li>
-          <li class="category-item" onclick="scrollBanners(3)">
-            <span>🦌 Cozy Winter Wear</span>
-            <span>🧣</span>
-          </li>
-          <li class="category-item" onclick="scrollBanners(4)">
-            <span>❄️ Christmas Clearance</span>
-            <span>✨</span>
-          </li>
-        </ul>
-      </aside>
+  <!-- ========================================================================
+       HOME STOREFRONT VIEW
+       ======================================================================== -->
+  <div id="homeStorefrontView">
 
-      <!-- Center Column: Animated Clicking Showcase -->
-      <section class="hero-view-col">
-        
-        <!-- Scrolling viewport where selection moves focus up & click events direct to landing links -->
-        <div class="scroller-outer">
-          <div class="scroller-viewport" id="scrollerViewport">
-            
-            <!-- Slide 0: Grand festive -->
-            <a href="#offers" class="slide-link">
-              <div class="banner-inner">
-                <span class="hero-badge">🎄 Holiday Special Launch</span>
-                <h1>Easy Lifestyle Christmas Special</h1>
-                <p>Curated and verified rewards tailored to save you more this winter season. Direct access, no guessing.</p>
-                <span class="btn-action">Claim Holiday Offers 🎁</span>
-              </div>
-              <div class="banner-art">
-                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
-                <div class="banner-countdown">🌟 Active Only</div>
-              </div>
-            </a>
+    <!-- 1. ALIEXPRESS "BLOOMING SALE" GREEN & WHITE HERO BANNER (Reference 3) -->
+    <section class="blooming-hero-banner">
+      <div class="container blooming-grid">
+        <div>
+          <div class="sale-timer-line">Sale Ends: Dec 25, 23:59 (WAT)</div>
+          <div class="blooming-heading-row" onclick="openProductById('p1')">
+            <h1 class="blooming-serif-title">Christmas Blooming Sale</h1>
+            <span class="arrow-circle-green">❯</span>
+          </div>
 
-            <!-- Slide 1: Gift Hampers -->
-            <a href="https://example.com" class="slide-link" target="_blank" rel="noopener noreferrer">
-              <div class="banner-inner">
-                <span class="hero-badge">🎁 Holiday Giveaway Pack</span>
-                <h2>Mega Christmas Gift Hampers</h2>
-                <p>Grab handpicked giveaways, special bundles, and rewards from our top digital sponsors. Securing direct gift packs.</p>
-                <span class="btn-action">Get Your Christmas Pack ⛄</span>
+          <!-- 3 Mini Category/Product Cards Inside Hero Banner -->
+          <div class="hero-mini-cards">
+            <div class="hero-mini-card pastel-purple" onclick="openProductById('p1')">
+              <img class="mini-card-img" src="https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=300&q=80" alt="Top deals" />
+              <div class="mini-card-info">
+                <div class="mini-card-title">Top deals</div>
+                <div class="mini-price-tag">$12.49</div>
               </div>
-              <div class="banner-art">
-                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
-                <div class="banner-countdown">🎅 Santa's Special</div>
-              </div>
-            </a>
+            </div>
 
-            <!-- Slide 2: Holiday Tech Specials -->
-            <a href="https://example.com" class="slide-link" target="_blank" rel="noopener noreferrer">
-              <div class="banner-inner">
-                <span class="hero-badge">🔔 Limited Gift Pack</span>
-                <h2>Digital Subscriptions &amp; Tech Freebies</h2>
-                <p>Fully waived setup, holiday trials, and free gift card credits. Click now to browse digital deals.</p>
-                <span class="btn-action">Activate Tech Promos &rarr;</span>
+            <div class="hero-mini-card pastel-peach" onclick="openProductById('p2')">
+              <img class="mini-card-img" src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=300&q=80" alt="Sports & travel" />
+              <div class="mini-card-info">
+                <div class="mini-card-title">Audio &amp; travel</div>
+                <div class="mini-price-tag">$18.90</div>
               </div>
-              <div class="banner-art">
-                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
-                <div class="banner-countdown">💻 Tech Exclusives</div>
-              </div>
-            </a>
+            </div>
 
-            <!-- Slide 3: Winter fashion deals -->
-            <a href="https://example.com" class="slide-link" target="_blank" rel="noopener noreferrer">
-              <div class="banner-inner">
-                <span class="hero-badge">🦌 Wardrobe Credit</span>
-                <h2>Warm Cozy Winter Wear</h2>
-                <p>Claim up to 80% discount codes, vouchers, and credit packs for warm clothes and outerwear for your entire family.</p>
-                <span class="btn-action">Claim Discount Now &rarr;</span>
+            <div class="hero-mini-card pastel-blue" onclick="openProductById('p3')">
+              <img class="mini-card-img" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=300&q=80" alt="Jewelry & watches" />
+              <div class="mini-card-info">
+                <div class="mini-card-title">Watches &amp; accessories...</div>
+                <div class="mini-price-tag">$29.50</div>
               </div>
-              <div class="banner-art">
-                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
-                <div class="banner-countdown">🧣 Season Spec</div>
-              </div>
-            </a>
-
-            <!-- Slide 4: Year End Clearance closeout -->
-            <a href="#offers" class="slide-link">
-              <div class="banner-inner">
-                <span class="hero-badge">❄️ Year-End Closeout</span>
-                <h2>The Christmas Clearance Hub</h2>
-                <p>Access final coupons, promotional credits, and holiday closeout specials before they expire.</p>
-                <span class="btn-action">Claim Limited Deals &rarr;</span>
-              </div>
-              <div class="banner-art">
-                <img class="brand-hero-logo" src="logo.png" alt="Easy Lifestyle" />
-                <div class="banner-countdown">✨ Expiration Soon</div>
-              </div>
-            </a>
-
+            </div>
           </div>
         </div>
 
-        <h2 class="section-title" id="offers">Featured Special Holiday Offers</h2>
+        <!-- Right Side Gift Bag & 60% / 90% Off Badge -->
+        <div class="blooming-right-promo" onclick="openProductById('p6')">
+          <div class="gift-bag-box">
+            <h4>EasyLifestyleDay</h4>
+            <div class="big-day">1ST–25TH</div>
+            <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.04em;margin-top:4px;">HOLIDAY MEGA DROP</div>
+          </div>
+          <div class="discount-circle-green">
+            <span class="up-to">UP TO</span>
+            <strong>90%</strong>
+            <span class="up-to">OFF</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <div class="offers-row">
-          <!-- Card 1 -->
-          <article class="offer-card">
-            <div class="card-top">
-              <span class="gift-badge">🔥 Christmas Choice</span>
-              <h3>Premium Gift Pack</h3>
-              <p>Direct bonus reward when joining and creating a free seasonal account under our festive banner link.</p>
-              <div class="perk-strip">❄️ Instant Access Verification</div>
-            </div>
-            <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="claim-btn">Claim Free Offer 🎁</a>
-          </article>
+    <!-- 2. TODAY'S DEALS: SUPERDEALS & BIG SAVE (Reference 2 & 3) -->
+    <section class="todays-deals-section container">
+      <h2 class="section-center-heading">Today's deals</h2>
 
-          <!-- Card 2 -->
-          <article class="offer-card">
-            <div class="card-top">
-              <span class="gift-badge">🤶 Christmas Exclusive</span>
-              <h3>Digital App Bundle</h3>
-              <p>Top mobile and digital services with fully waived setup fees and complimentary gift cards for holiday signup.</p>
-              <div class="perk-strip">🔔 100% Free Signup</div>
+      <div class="deals-dual-grid">
+        <!-- Left Box: SuperDeals -->
+        <div class="deal-panel-box">
+          <div class="deal-panel-header">
+            <h3>SuperDeals</h3>
+            <div class="deal-pill-timer">
+              <span class="red-dot">🕒</span>
+              <span id="countdownTimerText">Ends in: 05:13:29</span>
+              <span>❯</span>
             </div>
-            <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="claim-btn">Get Holiday Pack 🎄</a>
-          </article>
-
-          <!-- Card 3 -->
-          <article class="offer-card">
-            <div class="card-top">
-              <span class="gift-badge">🦌 Seasonal Deal</span>
-              <h3>Christmas Cash Credit</h3>
-              <p>Claim exclusive digital points and credits directly compatible with top online portals on our network.</p>
-              <div class="perk-strip">✨ Activates instantly online</div>
-            </div>
-            <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="claim-btn">Check Eligibility 🎁</a>
-          </article>
+          </div>
+          <div class="panel-products-row" id="superDealsContainer"></div>
         </div>
 
-      </section>
-
-      <!-- Right Column: Interactive Side Promotion Panel -->
-      <aside class="info-panel">
-        <div class="info-box-festive">
-          <h3>🎅 Santa's Quick Deals</h3>
-          <p>We compile verified rewards, digital bonuses, and winter clearance codes.</p>
-          <a href="#offers" class="badge-btn">Start Exploring</a>
+        <!-- Right Box: Big Save -->
+        <div class="deal-panel-box">
+          <div class="deal-panel-header">
+            <h3>Big Save</h3>
+            <div class="deal-pill-timer">
+              <span class="red-dot">🏷️</span>
+              <span>500+ Verified Brands</span>
+              <span>❯</span>
+            </div>
+          </div>
+          <div class="panel-products-row" id="bigSaveContainer"></div>
         </div>
-        <div class="info-box-coupon">
-          <p style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase;">Christmas Bonus Code</p>
-          <div class="coupon-code">XMAS90</div>
-          <p style="font-size: 0.65rem; color: var(--text-muted);">Use at partner checkout sites</p>
-        </div>
-      </aside>
+      </div>
+    </section>
 
+    <!-- 3. LIGHTINTHEBOX 3-COLUMN CLEARANCE + SIDEBAR SECTION (Reference 1) -->
+    <section class="litb-portal-section container">
+      <div class="litb-grid">
+        <!-- Left Sidebar Categories -->
+        <aside class="litb-sidebar">
+          <div class="litb-sidebar-item" onclick="openProductById('p4')"><span>Women's Clothing</span><span>›</span></div>
+          <div class="litb-sidebar-item" onclick="openProductById('p7')"><span>Men's Clothing</span><span>›</span></div>
+          <div class="litb-sidebar-item" onclick="openProductById('p8')"><span>Shoes &amp; Bags</span><span>›</span></div>
+          <div class="litb-sidebar-item" onclick="openProductById('p5')"><span>Home &amp; Garden</span><span>›</span></div>
+          <div class="litb-sidebar-item" onclick="openProductById('p1')"><span>Weddings &amp; Events</span><span>›</span></div>
+          <div class="litb-sidebar-item" onclick="openProductById('p2')"><span>Phones &amp; Accessories</span><span>›</span></div>
+          <div class="litb-sidebar-item" onclick="openProductById('p3')"><span>Watches &amp; Jewelry</span><span>›</span></div>
+          <div class="litb-sidebar-item" onclick="openProductById('p6')"><span>Consumer Electronics</span><span>›</span></div>
+          <div class="litb-sidebar-item" onclick="openProductById('p9')"><span>Shop by Holiday</span><span>›</span></div>
+        </aside>
+
+        <!-- Center 90% OFF Clearance Hero -->
+        <div class="litb-clearance-banner" onclick="openProductById('p6')">
+          <div class="clearance-ribbon">CLEARANCE!</div>
+          <div class="ninety-off-lockup">
+            <span class="up-to-pill">Up to</span>
+            <span class="big-digits">90</span>
+            <div class="pct-stack">
+              <span>%</span>
+              <span>off</span>
+            </div>
+          </div>
+          <div class="shipping-subtext">24-Hour Instant Verification &amp; Fast Delivery</div>
+          <div class="shop-now-black-btn">Shop Now</div>
+        </div>
+
+        <!-- Right Welcome & App QR Column -->
+        <aside class="litb-right-stack">
+          <div class="welcome-red-card">
+            <h4>WELCOME~</h4>
+            <p>Claim verified offers for the best holiday experience</p>
+            <div class="welcome-btn-white" onclick="openProductById('p1')">Claim Free Bonus</div>
+            <div class="welcome-btn-tint" onclick="window.location.href='mailto:info@easylifestyle.site'">Contact Desk</div>
+          </div>
+          <div class="qr-promo-card" onclick="openProductById('p2')">
+            <h5>UNLOCK VIP OFFERS FOR <span>60% OFF</span></h5>
+            <div class="qr-box-sim">
+              <span>EL</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Most-loved Categories (Reference 1) -->
+      <h3 class="most-loved-heading">Most-loved Categories</h3>
+      <div class="most-loved-grid" id="mostLovedContainer"></div>
+    </section>
+
+  </div>
+
+  <!-- ========================================================================
+       IN-PAGE PRODUCT DETAIL VIEW (Loads on Same Page When Any Product Clicked)
+       ======================================================================== -->
+  <main id="productDetailView" class="container">
+    
+    <!-- Product-Specific Airport Moving Banner (Right to Left) -->
+    <div class="product-airport-board">
+      <div class="product-airport-label">
+        ✈️ PRODUCT OFFERS
+      </div>
+      <div class="airport-marquee-viewport">
+        <div class="product-airport-track" id="productSpecificAirportTrack">
+          <!-- Populated dynamically with the clicked product's live offers -->
+        </div>
+      </div>
     </div>
+
+    <div class="back-bar">
+      <button class="back-home-btn" onclick="showHomeView()">← Back to All Deals</button>
+      <div class="breadcrumb-trail" id="pdBreadcrumb">Home / SuperDeals / Product</div>
+    </div>
+
+    <div class="product-detail-card">
+      <div>
+        <div class="pd-gallery-main">
+          <img id="pdMainImage" src="" alt="Selected Product" />
+        </div>
+      </div>
+
+      <div>
+        <div class="pd-Badge-Row">
+          <span class="pd-choice-badge">Christmas Blooming Pick</span>
+          <span class="pd-superdeal-badge" id="pdDiscountBadge">-70% OFF</span>
+        </div>
+
+        <h1 class="pd-title" id="pdTitle">Product Name</h1>
+
+        <div class="pd-rating-line">
+          <span style="color:#f59e0b;font-weight:900;">★★★★★ 4.9</span>
+          <span>•</span>
+          <span id="pdOrdersCount">1,420+ verified orders</span>
+          <span>•</span>
+          <span style="color:var(--green-brand);font-weight:800;">✓ Verified by Easy Lifestyle</span>
+        </div>
+
+        <div class="pd-price-banner">
+          <div>
+            <span class="pd-big-price" id="pdPriceCurrent">$19.99</span>
+            <span class="pd-old-price" id="pdPriceOld">$69.99</span>
+          </div>
+          <div style="font-size:0.82rem;font-weight:800;color:var(--red-brand);">
+            ⚡ Flash Holiday Price Active
+          </div>
+        </div>
+
+        <div class="pd-coupons-row">
+          <div class="pd-coupon-pill" onclick="copyPromoCode('XMAS90')">🎟️ Extra 20% Off Code: XMAS90 (Click to Copy)</div>
+          <div class="pd-coupon-pill" onclick="copyPromoCode('24BF04')">🎁 $10 Off Orders Code: 24BF04</div>
+          <div class="pd-coupon-pill" onclick="copyPromoCode('EASYVIP')">✨ Free Express Delivery: EASYVIP</div>
+        </div>
+
+        <p class="pd-description" id="pdDescription">
+          Product description loads here.
+        </p>
+
+        <div class="pd-perks-box">
+          <div>✓ <strong>Scrolling Airport Offer Applied:</strong> Eligible for instant holiday discount &amp; bonus reward</div>
+          <div>✓ <strong>Fast Dispatch:</strong> 24-hour verification &amp; direct partner checkout</div>
+          <div>✓ <strong>Support Guarantee:</strong> Direct assistance via info@easylifestyle.site</div>
+        </div>
+
+        <div class="pd-actions-row">
+          <a id="pdClaimLink" href="#claim" target="_blank" rel="noopener noreferrer" class="btn-claim-now">
+            Claim This Offer Now 🎁
+          </a>
+          <button class="btn-add-cart" onclick="addCurrentProductToCart()">
+            + Add to Cart 🛒
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="most-loved-heading">More SuperDeals You May Like (Click to Load Instantly)</h3>
+    <div class="panel-products-row" id="relatedProductsContainer" style="grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));"></div>
+
   </main>
 
   <footer>
     <div class="container">
-      <p>Questions or holiday partnership inquiries? Contact our team at <a href="mailto:info@easylifestyle.site">info@easylifestyle.site</a></p>
-      <p style="margin-top: 8px;">&copy; 2026 Easy Lifestyle &bull; easylifestyle.site &bull; Designed with 🎄 and ✨ for Christmas</p>
+      <p>Questions, order verification, or partnership inquiries? Email us directly at <a href="mailto:info@easylifestyle.site">info@easylifestyle.site</a></p>
+      <p style="margin-top: 8px;">&copy; 2026 Easy Lifestyle &bull; easylifestyle.site &bull; All Christmas SuperDeals &amp; Verified Offers</p>
     </div>
   </footer>
 
+  <!-- ========================================================================
+       JAVASCRIPT: PRODUCT CATALOG + IN-PAGE ROUTER + AIRPORT TICKER ENGINE
+       ======================================================================== -->
   <script>
-    // JS Upward Scrolling Control for Banners
-    function scrollBanners(index) {
-      const viewport = document.getElementById('scrollerViewport');
-      const offset = index * 380; // Size equal to scroller viewport banner height
-      
-      // Vertical translation transform
-      viewport.style.transform = `translateY(-${offset}px)`;
-      
-      // Toggle active states on side categories
-      const categoryItems = document.querySelectorAll('.category-item');
-      categoryItems.forEach((item, idx) => {
-        if (idx === index) {
-          item.classList.add('active');
-        } else {
-          item.classList.remove('active');
-        }
-      });
+    const PRODUCTS = [
+      {
+        id: 'p1',
+        title: 'Polarized UV400 Designer Holiday Sunglasses',
+        category: 'Top Deals',
+        price: '$12.49',
+        oldPrice: '$45.00',
+        discount: '-72% OFF',
+        orders: '2,840+ orders',
+        image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=700&q=80',
+        offerTicker: '✈️ FLASH OFFER ON DESIGNER SUNGLASSES: BUY 1 GET 1 50% OFF WITH CODE: XMAS90  •  🕶️ FREE HARD CASE & MICROFIBER KIT INCLUDED TODAY  •  ⚡ EXTRA $5 OFF AT CHECKOUT',
+        description: 'Ultra-lightweight polarized UV400 sunglasses featuring scratch-resistant lenses and a classic frame. Includes a complimentary holiday protective case and instant discount activation.',
+        link: 'https://easylifestyle.site/#offer-p1',
+        group: 'hero'
+      },
+      {
+        id: 'p2',
+        title: 'Air-Bone Conduction Open Wireless Bluetooth Earphones 2026',
+        category: 'Consumer Electronics',
+        price: '$18.90',
+        oldPrice: '$64.00',
+        discount: '-70% OFF',
+        orders: '4,190+ orders',
+        image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=700&q=80',
+        offerTicker: '✈️ LIVE TECH OFFER: 70% OFF OPEN-EAR BLUETOOTH EARPHONES + FREE PROTECTIVE SILICONE CASE  •  🎧 USE CODE: 24BF04 FOR INSTANT $8 REBATE  •  🚚 FREE 24-HOUR DISPATCH',
+        description: '2026 New Open Bluetooth Earphone with ergonomic air-bone conduction comfort, crystal-clear bass, waterproof sport casing, and 36-hour charging case battery life.',
+        link: 'https://easylifestyle.site/#offer-p2',
+        group: 'superdeals'
+      },
+      {
+        id: 'p3',
+        title: 'Luxury Chronograph Waterproof Rose-Gold Watch',
+        category: 'Watches & Jewelry',
+        price: '$29.50',
+        oldPrice: '$110.00',
+        discount: '-73% OFF',
+        orders: '1,930+ orders',
+        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=700&q=80',
+        offerTicker: '✈️ VIP WATCH DEAL: SAVE $80.50 INSTANTLY + FREE CHRISTMAS GIFT BOX PACKAGING  •  ⌚ APPLY CODE: XMAS90 FOR EXTRA 15% OFF  •  ✨ 2-YEAR INTERNATIONAL WARRANTY INCLUDED',
+        description: 'Precision quartz chronograph timepiece with sapphire-coated crystal glass, stainless steel mesh strap, and 30M waterproof rating. Packaged in an executive holiday gift box.',
+        link: 'https://easylifestyle.site/#offer-p3',
+        group: 'bigsave'
+      },
+      {
+        id: 'p4',
+        title: 'Autumn & Winter Korean Slim Two-Piece Festive Outfit',
+        category: "Women's Chic",
+        price: '$24.80',
+        oldPrice: '$78.00',
+        discount: '-68% OFF',
+        orders: '3,110+ orders',
+        image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=80',
+        offerTicker: '✈️ FASHION SUPERDEAL: UP TO 80% OFF WINTER CHIC COLLECTION  •  👗 USE CODE: EASYVIP FOR FREE EXPRESS SHIPPING  •  🎁 BONUS $10 VOUCHER ON YOUR NEXT ORDER',
+        description: 'Tailored holiday two-piece ensemble crafted from breathable soft-touch fabric. Designed for festive gatherings, parties, and effortless everyday style.',
+        link: 'https://easylifestyle.site/#offer-p4',
+        group: 'superdeals'
+      },
+      {
+        id: 'p5',
+        title: 'Modern Waterproof LED Outdoor & Living Room Wall Sconce',
+        category: 'Home & Garden',
+        price: '$21.40',
+        oldPrice: '$65.00',
+        discount: '-67% OFF',
+        orders: '1,580+ orders',
+        image: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=700&q=80',
+        offerTicker: '✈️ HOME & LIGHTING FLASH SALE: BUY 3 GET 1 FREE ON ALL LED WALL SCONCES  •  💡 CODE: XMAS90 SAVES AN EXTRA 20%  •  ⚡ IP65 WEATHERPROOF CERTIFIED',
+        description: 'Architectural warm-white LED wall luminaire with matte aluminum housing and IP65 waterproof protection for both indoor accent walls and outdoor patios.',
+        link: 'https://easylifestyle.site/#offer-p5',
+        group: 'superdeals'
+      },
+      {
+        id: 'p6',
+        title: 'New GPS Smart Watch Ultra AMOLED Fitness & Call Tracker',
+        category: 'Consumer Electronics',
+        price: '$34.99',
+        oldPrice: '$129.00',
+        discount: '-73% OFF',
+        orders: '6,450+ orders',
+        image: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=700&q=80',
+        offerTicker: '✈️ #1 BEST SELLER OFFER: GPS SMART WATCH ULTRA AT 73% OFF + 2 FREE EXTRA STRAPS  •  ⌚ CODE: 24BF04 FOR INSTANT BONUS DISCOUNT  •  🔋 14-DAY BATTERY LIFE',
+        description: 'Full-screen AMOLED GPS Smart Watch with Bluetooth voice calling, heart rate & sleep monitoring, 100+ workout modes, and rugged titanium-finish alloy casing.',
+        link: 'https://easylifestyle.site/#offer-p6',
+        group: 'bigsave'
+      },
+      {
+        id: 'p7',
+        title: 'Pro Cushion Running & Court Athletic Sneakers',
+        category: 'Sports & Outdoors',
+        price: '$31.20',
+        oldPrice: '$95.00',
+        discount: '-67% OFF',
+        orders: '2,290+ orders',
+        image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=80',
+        offerTicker: '✈️ FOOTWEAR MEGA SAVE: 67% OFF PRO COURT SNEAKERS + FREE PERFORMANCE SOCKS  •  👟 ENTER CODE: XMAS90 AT CHECKOUT  •  🚀 24-HOUR SHIPPING AVAILABLE',
+        description: 'High-rebound cushioned athletic sneakers engineered for all-day walking, running, and court sports with breathable knit mesh and non-slip rubber traction.',
+        link: 'https://easylifestyle.site/#offer-p7',
+        group: 'bigsave'
+      },
+      {
+        id: 'p8',
+        title: 'Multi-Pocket Waterproof Travel & Gym Duffel Tote Bag',
+        category: 'Shoes & Bags',
+        price: '$22.60',
+        oldPrice: '$68.00',
+        discount: '-66% OFF',
+        orders: '3,740+ orders',
+        image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=80',
+        offerTicker: '✈️ TRAVEL & BAG OFFER: 66% OFF WATERPROOF CABIN DUFFEL + FREE TOILETRY POUCH  •  👜 CODE: EASY2026 FOR EXTRA 15% OFF  •  ✈️ CABIN APPROVED SIZE',
+        description: ' Lightweight water-repellent travel duffel bag with dedicated shoe compartment, wet/dry separation pocket, and luggage trolley sleeve.',
+        link: 'https://easylifestyle.site/#offer-p8',
+        group: 'loved'
+      },
+      {
+        id: 'p9',
+        title: 'Winter Fleece-Lined Thermal Parka & Holiday Gift Hamper',
+        category: 'Shop by Holiday',
+        price: '$39.90',
+        oldPrice: '$140.00',
+        discount: '-71% OFF',
+        orders: '1,890+ orders',
+        image: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e3?auto=format&fit=crop&w=700&q=80',
+        offerTicker: '✈️ HOLIDAY CLEARANCE SPECIAL: 71% OFF WINTER THERMAL PARKA + BONUS GIFT VOUCHER  •  🎄 USE CODE: XMAS90 NOW  •  ❄️ LIMITED SEASONAL STOCK',
+        description: 'Windproof fleece-lined winter coat paired with our seasonal digital gift voucher pack. Built for maximum warmth and holiday gifting.',
+        link: 'https://easylifestyle.site/#offer-p9',
+        group: 'loved'
+      }
+    ];
+
+    let cartCount = 0;
+    let activeProduct = PRODUCTS[0];
+
+    function createProductCardHTML(product) {
+      return `
+        <article class="ae-product-card" onclick="openProductById('${product.id}')">
+          <div class="ae-img-wrap">
+            <span class="ae-discount-tag">${product.discount}</span>
+            <img src="${product.image}" alt="${product.title}" loading="lazy" />
+          </div>
+          <h4 class="ae-product-title">${product.title}</h4>
+          <div class="ae-price-row">
+            <span class="ae-price-current">${product.price}</span>
+            <span class="ae-price-old">${product.oldPrice}</span>
+          </div>
+        </article>
+      `;
     }
 
-    // Snowy Fall overlay generation
-    const snowContainer = document.getElementById('snowContainer');
-    const snowflakeCount = 45;
+    function renderStorefrontGrids(filterQuery = '') {
+      const q = filterQuery.trim().toLowerCase();
+      const filtered = q
+        ? PRODUCTS.filter(p => p.title.toLowerCase().includes(q) || p.category.toLowerCase().includes(q))
+        : PRODUCTS;
 
-    for (let i = 0; i < snowflakeCount; i++) {
-      const flake = document.createElement('div');
-      flake.className = 'snowflake';
-      flake.innerHTML = ['❄', '❅', '❆'][Math.floor(Math.random() * 3)];
-      flake.style.left = `${Math.random() * 100}vw`;
-      flake.style.animationDuration = `${Math.random() * 8 + 6}s`; // slow natural drop rate
-      flake.style.animationDelay = `${Math.random() * -10}s`;
-      flake.style.opacity = Math.random();
-      flake.style.fontSize = `${Math.random() * 0.5 + 0.75}rem`;
-      snowContainer.appendChild(flake);
+      const superDeals = (q ? filtered : PRODUCTS.filter(p => p.group === 'superdeals')).slice(0, 3);
+      const bigSave = (q ? filtered.slice(3, 6) : PRODUCTS.filter(p => p.group === 'bigsave')).slice(0, 3);
+
+      document.getElementById('superDealsContainer').innerHTML =
+        (superDeals.length ? superDeals : PRODUCTS.slice(0, 3)).map(createProductCardHTML).join('');
+
+      document.getElementById('bigSaveContainer').innerHTML =
+        (bigSave.length ? bigSave : PRODUCTS.slice(3, 6)).map(createProductCardHTML).join('');
+
+      const lovedItems = [PRODUCTS[3], PRODUCTS[6], PRODUCTS[7], PRODUCTS[8]];
+      document.getElementById('mostLovedContainer').innerHTML = lovedItems.map(item => `
+        <div class="loved-card" onclick="openProductById('${item.id}')">
+          <img src="${item.image}" alt="${item.category}" loading="lazy" />
+          <div class="loved-overlay">
+            <h4>${item.category}</h4>
+            <span>${item.discount} • Starting at ${item.price}</span>
+          </div>
+        </div>
+      `).join('');
     }
+
+    // Open Product Page Inside the Same Webpage + Update Airport Right-to-Left Offers Ticker
+    function openProductById(productId) {
+      const product = PRODUCTS.find(p => p.id === productId) || PRODUCTS[0];
+      activeProduct = product;
+
+      // Populate product details
+      document.getElementById('pdMainImage').src = product.image;
+      document.getElementById('pdMainImage').alt = product.title;
+      document.getElementById('pdDiscountBadge').textContent = product.discount;
+      document.getElementById('pdTitle').textContent = product.title;
+      document.getElementById('pdOrdersCount').textContent = product.orders;
+      document.getElementById('pdPriceCurrent').textContent = product.price;
+      document.getElementById('pdPriceOld').textContent = product.oldPrice;
+      document.getElementById('pdDescription').textContent = product.description;
+      document.getElementById('pdBreadcrumb').textContent = `Home / ${product.category} / ${product.title}`;
+      document.getElementById('pdClaimLink').href = product.link;
+
+      // Update the Airport Right-to-Left Scrolling Banner specifically for this product
+      const repeatedTicker = `
+        <span>${product.offerTicker}</span>
+        <span>${product.offerTicker}</span>
+        <span>${product.offerTicker}</span>
+      `;
+      document.getElementById('productSpecificAirportTrack').innerHTML = repeatedTicker;
+
+      // Also update the sticky top global airport bar so offers are visible everywhere
+      document.getElementById('globalAirportTicker').innerHTML = `
+        <div class="ticker-item" onclick="copyPromoCode('XMAS90')">
+          ${product.offerTicker} <span class="ticker-code">CLICK TO COPY CODE: XMAS90</span>
+        </div>
+        <div class="ticker-item" onclick="copyPromoCode('24BF04')">
+          ${product.offerTicker} <span class="ticker-code">USE CODE: 24BF04</span>
+        </div>
+      `;
+
+      // Populate Related Products
+      const related = PRODUCTS.filter(p => p.id !== product.id).slice(0, 4);
+      document.getElementById('relatedProductsContainer').innerHTML =
+        related.map(createProductCardHTML).join('');
+
+      // Switch View In-Place (Same Webpage)
+      document.getElementById('homeStorefrontView').style.display = 'none';
+      document.getElementById('productDetailView').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showHomeView() {
+      document.getElementById('productDetailView').style.display = 'none';
+      document.getElementById('homeStorefrontView').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleSearch(query) {
+      if (document.getElementById('productDetailView').style.display === 'block') {
+        showHomeView();
+      }
+      renderStorefrontGrids(query);
+    }
+
+    function addCurrentProductToCart() {
+      cartCount += 1;
+      document.getElementById('cartCountBadge').textContent = cartCount;
+      alert(`Added "${activeProduct.title}" to your cart with ${activeProduct.discount} applied!`);
+    }
+
+    function copyPromoCode(code) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code);
+      }
+      alert(`Promo code "${code}" copied! Apply it at checkout for your extra holiday discount.`);
+    }
+
+    // Live Countdown Timer for SuperDeals
+    let remainingSeconds = 5 * 3600 + 13 * 60 + 29;
+    setInterval(() => {
+      if (remainingSeconds > 0) remainingSeconds--;
+      const hrs = String(Math.floor(remainingSeconds / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((remainingSeconds % 3600) / 60)).padStart(2, '0');
+      const secs = String(remainingSeconds % 60).padStart(2, '0');
+      const el = document.getElementById('countdownTimerText');
+      if (el) el.textContent = `Ends in: ${hrs}:${mins}:${secs}`;
+    }, 1000);
+
+    // Initialize storefront on load
+    renderStorefrontGrids();
   </script>
 </body>
 </html>
