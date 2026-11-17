@@ -12,30 +12,41 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Easy Lifestyle - Shop everything, pay less</title>
-<!-- Pacifico = the script font of the "Lifestyle" logo -->
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<!-- Lexend = main site font (closest match to the AliExpress look). Pacifico = script font of the "Lifestyle" logo -->
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
 <style>
 /* ===== 1. COLOURS (change these to re-brand the whole site) ===== */
-:root{--red:#fd384f;--bg:#f5f5f5;--tx:#191919;--mut:#757575;--ln:#e8e8e8;--grn:#17803d}
+:root{--red:#fd384f;--bg:#f5f5f5;--tx:#191919;--mut:#757575;--ln:#e8e8e8;--grn:#17803d;--font:"Lexend",Roboto,Arial,sans-serif} /* --font = the font used across the whole site; change it here */
 
 /* ===== 2. BASE STYLES ===== */
 *{box-sizing:border-box;margin:0}
-body{font:14px/1.4 Roboto,Arial,sans-serif;background:var(--bg);color:var(--tx);padding-bottom:70px}
+body{font:400 14px/1.45 var(--font);background:var(--bg);color:var(--tx);padding-bottom:70px}
 a{color:inherit;text-decoration:none}
 button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
 svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .wrap{max-width:1200px;margin:auto;padding:0 10px}
 
-/* ===== 3. HEADER: logo + search + cart (stays stuck at the top) ===== */
+/* ===== 3. HEADER: logo (top-left) + delivery location, then a STICKY search bar ===== */
 .strip{background:#191919;color:#fff;font-size:12px;text-align:center;padding:6px}
-header{position:sticky;top:0;z-index:50;background:#fff;box-shadow:0 1px 4px #0002}
-.hd{display:flex;align-items:center;gap:10px;padding:10px}
+header{background:#fff}                                  /* top row scrolls away with the page */
+.hd{display:flex;align-items:center;gap:12px;padding:10px 12px 4px}
+/* location button next to the logo */
+.loc{margin-right:auto;min-width:0;max-width:60%;display:flex;align-items:center;gap:6px;text-align:left;padding:4px 8px;border-radius:10px}
+.loc svg{width:20px;height:20px;color:var(--red);flex:none}.loc .ch{color:var(--mut)}
+.loc span{display:block;min-width:0}.loc small{font-size:11px;line-height:1.1}
+.loc b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lk{color:var(--red);cursor:pointer}
+/* sticky block = search bar + category tabs (stays stuck while scrolling) */
+.stk{position:sticky;top:0;z-index:50;background:#fff;box-shadow:0 1px 4px #0002}
+.sbw{padding:8px 12px}
 .logo{display:flex;align-items:center;flex:none}
-.logo b{background:#e0202e;color:#fff;font:800 22px Arial,sans-serif;padding:2px 8px 4px;border-radius:7px}
+.logo b{background:#e0202e;color:#fff;font:700 22px var(--font);padding:2px 8px 4px;border-radius:7px}
 .logo i{font:400 25px Pacifico,cursive;color:var(--grn);margin-left:3px}
-.sb{flex:1;min-width:0;display:flex;border:2px solid var(--red);border-radius:30px;overflow:hidden}
-.sb input{flex:1;min-width:0;border:0;padding:9px 14px;font:inherit;outline:0}
-.sb button{background:var(--red);color:#fff;padding:0 16px}
+/* SEARCH BAR: black outline pill + round black search button (AliExpress style) */
+.sb{display:flex;align-items:center;border:2px solid var(--tx);border-radius:40px;padding:3px 3px 3px 18px;background:#fff}
+.sb input{flex:1;min-width:0;height:42px;border:0;outline:0;background:none;color:var(--tx);font:400 16px var(--font)}
+.sb input::placeholder{color:#8a8a8a}
+.sb button{flex:none;width:46px;height:46px;border-radius:50%;background:var(--tx);color:#fff;display:grid;place-items:center}
 .ic{position:relative;padding:6px}
 .bdg{position:absolute;top:-2px;right:-4px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--red);color:#fff;font:700 11px/18px Arial;text-align:center;border:2px solid #fff;box-sizing:content-box}
 .bdg[data-n="0"]{display:none}
@@ -87,7 +98,7 @@ small{color:var(--mut);font-size:12px;display:block}
 .th>*{flex:none;width:56px;height:56px;border-radius:8px;border:2px solid transparent;overflow:hidden;opacity:.7}
 .th .on{border-color:var(--red);opacity:1}.th .im{height:100%}
 .pb{background:linear-gradient(90deg,#fd384f,#ff7a00);color:#fff;border-radius:12px;padding:12px 14px}
-.pb b{font-size:30px}.pb s{opacity:.8;margin:0 8px}.pb em{background:#fff;color:var(--red);font:700 12px Arial;padding:2px 6px;border-radius:4px}
+.pb b{font-size:30px}.pb s{opacity:.8;margin:0 8px}.pb em{background:#fff;color:var(--red);font:700 12px var(--font);padding:2px 6px;border-radius:4px}
 .pb div{font-size:12px;margin-top:2px}
 .box{background:#fff;border-radius:12px;padding:14px;margin-top:10px;line-height:1.8}
 .box h1{font-size:17px;line-height:1.35}
@@ -115,6 +126,17 @@ body.pg .bar{display:flex}body.pg nav{display:none}
 .cats button{background:#fff;border-radius:12px;padding:18px 6px;font-weight:600}.cats b{display:block;font-size:32px}
 .empty{text-align:center;padding:50px 10px;color:var(--mut)}.empty b{display:block;font-size:54px}
 
+/* ===== 7b. LOCATION PICKER (pop-up from the bottom) ===== */
+.ov{position:fixed;inset:0;z-index:100;background:#0007;display:none;align-items:flex-end;justify-content:center}.ov.s{display:flex}
+.sheet{background:#fff;width:100%;max-width:520px;border-radius:20px 20px 0 0;padding:16px;max-height:80vh;overflow:auto}
+.sh{display:flex;justify-content:space-between;align-items:center;font-size:17px;margin-bottom:10px}
+.lg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.lg button{padding:11px 12px;border:1.5px solid var(--ln);border-radius:12px;text-align:left;font-weight:500}
+.lg .on{border-color:var(--red);color:var(--red);background:#fd384f10}
+.lf{display:flex;gap:8px;margin-top:12px}
+.lf input{flex:1;min-width:0;border:1.5px solid var(--ln);border-radius:12px;padding:10px 12px;font:inherit;outline:0}
+.lf button{background:var(--tx);color:#fff;border-radius:12px;padding:0 18px;font-weight:600}
+
 /* ===== 8. BOTTOM TAB BAR (mobile app style) + TOAST MESSAGE ===== */
 nav{position:fixed;left:0;right:0;bottom:0;z-index:55;display:flex;background:#fff;border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom,0)}
 nav a{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:11px;color:var(--mut)}
@@ -129,17 +151,28 @@ nav a.on{color:var(--red)}nav .bdg{left:calc(50% + 4px);right:auto}
 <div class="strip">Free shipping on orders over &#8358;50,000 &middot; Easy returns</div>
 <header>
   <div class="hd">
-    <!-- LOGO: to use your own logo image, replace the whole <b>/<i> pair with:
+    <!-- LOGO (top-left). To use your own logo image, replace the <b>/<i> pair with:
          <img src="images/logo.png" alt="Easy Lifestyle" height="34"> -->
     <a class="logo" href="#home"><b>Easy</b><i>Lifestyle</i></a>
-    <label class="sb"><input id="q" type="search" placeholder="Search products..." autocomplete="off"><button aria-label="Search" id="sbtn"></button></label>
+    <!-- DELIVERY LOCATION beside the logo: tap it to change (filled in by JavaScript) -->
+    <button class="loc" id="locbtn" aria-label="Change delivery location"></button>
     <a class="ic" href="#cart" aria-label="Cart" id="hc"></a>
   </div>
-  <div class="tabs" id="tabs"></div>
 </header>
+<!-- STICKY BLOCK: search bar + category tabs -->
+<div class="stk">
+  <div class="sbw"><label class="sb"><input id="q" type="search" placeholder="Search products..." autocomplete="off"><button aria-label="Search" id="sbtn"></button></label></div>
+  <div class="tabs" id="tabs"></div>
+</div>
 <main class="wrap" id="app"></main>
 <nav id="nav"></nav>
 <div id="t"></div>
+<!-- LOCATION PICKER pop-up (opened by tapping the location) -->
+<div class="ov" id="ov"><div class="sheet" role="dialog" aria-label="Choose delivery location">
+  <div class="sh"><b>Choose your delivery location</b><button class="x" id="lx" aria-label="Close">✕</button></div>
+  <div class="lg" id="lg"></div>
+  <form class="lf" id="lf"><input id="li" placeholder="Other city or town" autocomplete="off"><button>Save</button></form>
+</div></div>
 
 <script>
 /* ================================================================
@@ -148,11 +181,16 @@ nav a.on{color:var(--red)}nav .bdg{left:calc(50% + 4px);right:auto}
 const STORE={
   currency:"₦",          // symbol shown before every price
   freeShipFrom:50000,    // cart total that unlocks free delivery
+  location:"Abuja",      // default delivery location (visitors can change it)
   whatsapp:""            // your number WITH country code, no + (e.g. "2348012345678").
                          // If filled, "Checkout" sends the order to your WhatsApp.
 };
 // Category names + emoji icon (shown in the tabs and the Categories page)
 const CATEGORIES=[["Phones","📱"],["Women","👗"],["Men","👔"],["Shoes","👟"],["Bags","👜"],["Home","🏠"],["Beauty","💄"],["Kids","🧸"]];
+// Cities shown in the "Deliver to" pop-up (visitors can also type their own city)
+const LOCATIONS=["Abuja","Lagos","Port Harcourt","Ibadan","Kano","Enugu","Benin City","Calabar","Owerri","Uyo","Kaduna","Jos"];
+// Suggestions that rotate inside the search box
+const HINTS=["Women Clothing","Wireless Earbuds","Sneakers","Smart Watch","Phone Accessories","Home Decor"];
 // Home page banners. bg = colours. img = optional photo (e.g. "images/banner1.jpg")
 const BANNERS=[
   {t:"Mega Sale",s:"Up to 70% off today",bg:"linear-gradient(90deg,#fd384f,#ff7a00)",img:"",cat:"All"},
@@ -200,7 +238,7 @@ const sold=n=>(n>=1000?(n/1000).toFixed(1)+"K":n)+" sold";
 const col=p=>(p.colors&&p.colors[0])||"Standard";
 const find=id=>PRODUCTS.find(x=>x.id==id);
 // Icons (simple line drawings)
-const ICON={home:'<path d="M3 11l9-8 9 8M5 10v10h14V10M10 20v-6h4v6"/>',grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>',cart:'<path d="M3 4h2l2.5 11h10L20 7H6.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>'};
+const ICON={home:'<path d="M3 11l9-8 9 8M5 10v10h14V10M10 20v-6h4v6"/>',grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>',cart:'<path d="M3 4h2l2.5 11h10L20 7H6.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',chev:'<path d="M6 9l6 6 6-6"/>'};
 const ic=k=>`<svg viewBox="0 0 24 24">${ICON[k]}</svg>`;
 
 /* ----- PRODUCT IMAGE: shows your photo, or a grey "Add photo" box if missing/broken ----- */
@@ -210,12 +248,21 @@ const img=(p,i)=>{const src=(p.images||[])[i];return src?`<img class="im" src="$
 /* ----- Cart: saved in the visitor's browser so it survives a refresh ----- */
 let cart={},cat="All",q="",sc=col,sq=1;   // cat/q = active filter, sc/sq = chosen option + quantity on product page
 try{cart=JSON.parse(localStorage.getItem("el-cart")||"{}")}catch(e){}
+let loc=STORE.location;try{loc=localStorage.getItem("el-loc")||loc}catch(e){}   // chosen delivery location (remembered)
 const save=()=>{try{localStorage.setItem("el-cart",JSON.stringify(cart))}catch(e){}};
 const count=()=>Object.values(cart).reduce((a,b)=>a+b,0);
 // Updates every cart badge (header, bottom bar, product page) and plays a small "pop"
 function badge(pop){document.querySelectorAll(".bdg").forEach(e=>{e.textContent=count();e.dataset.n=count();if(pop){e.classList.remove("bump");void e.offsetWidth;e.classList.add("bump")}})}
 function toast(m){const t=$("#t");t.textContent=m;t.classList.add("s");clearTimeout(t.h);t.h=setTimeout(()=>t.classList.remove("s"),1700)}
 function addCart(id,n,c){const k=id+"|"+c;cart[k]=(cart[k]||0)+n;save();badge(1);toast("Added to cart")}
+
+/* ----- DELIVERY LOCATION: button beside the logo + pop-up picker ----- */
+function showLoc(){
+  $("#locbtn").innerHTML=`${ic("pin")}<span><small>Deliver to</small><b></b></span><span class="ch">${ic("chev")}</span>`;
+  document.querySelectorAll("#locbtn b,.dl").forEach(e=>e.textContent=loc);   // textContent keeps typed text safe
+}
+function openLoc(){$("#lg").innerHTML=LOCATIONS.map(c=>`<button data-loc="${c}" class="${c==loc?"on":""}">${c}</button>`).join("");$("#li").value="";$("#ov").classList.add("s")}
+function setLoc(v){v=v.trim();if(!v)return;loc=v;try{localStorage.setItem("el-loc",v)}catch(e){}showLoc();$("#ov").classList.remove("s");toast("Delivering to "+v)}
 
 /* ----- Product card used on every list (home, deals, results, more to love) ----- */
 const card=p=>`<a class="pc" href="#product-${p.id}">${img(p,0)}<div class="pi"><h3>${p.name}</h3>
@@ -259,7 +306,7 @@ const view={
   <div>
    <div class="pb"><b>${money(p.price)}</b>${p.old?`<s>${money(p.old)}</s><em>-${off(p)}%</em>`:""}<div>⚡ Big Sale · ends in <span class="cd"></span></div></div>
    <div class="box"><h1>${p.name}</h1><small>★ ${p.rating} · ${sold(p.sold)}</small></div>
-   <div class="box">🚚 Free shipping over ${STORE.currency}${STORE.freeShipFrom.toLocaleString()}<br>🔄 Free returns within 15 days<br>🛡️ Buyer protection · secure payment</div>
+   <div class="box">📍 Deliver to <b class="dl lk" data-openloc></b> ▾<br>🚚 Free shipping over ${STORE.currency}${STORE.freeShipFrom.toLocaleString()}<br>🔄 Free returns within 15 days<br>🛡️ Buyer protection · secure payment</div>
    <div class="box"><b>Option</b><div class="vs">${(p.colors||["Standard"]).map((c,i)=>`<button data-c="${c}" class="${i?"":"on"}">${c}</button>`).join("")}</div>
     <b>Quantity</b><br><div class="qty"><button data-s="-1">−</button><span id="sq">1</span><button data-s="1">+</button></div></div>
    <div class="box"><b>Description</b><p>${p.desc}</p></div></div></div>
@@ -279,7 +326,7 @@ function route(){
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v==v));
   const sl=$("#sl");                                                // gallery: update "1/5" counter + thumbnails while swiping
   if(sl)sl.onscroll=()=>{const i=Math.round(sl.scrollLeft/sl.clientWidth);$("#cnt").textContent=(i+1)+"/"+sl.children.length;document.querySelectorAll("#th>*").forEach((t,j)=>t.classList.toggle("on",i==j))};
-  badge();tick();scrollTo(0,0);
+  badge();tick();showLoc();scrollTo(0,0);
 }
 // Countdown to midnight, shown next to "SuperDeals" and "Big Sale"
 function tick(){const e=new Date();e.setHours(24,0,0,0);const s=Math.floor((e-new Date())/1000),p=n=>String(n).padStart(2,"0");
@@ -294,7 +341,10 @@ $("#nav").innerHTML=[["home","Home","home"],["cats","Categories","grid"],["cart"
    CLICKS (one listener handles every button on the site)
    ================================================================ */
 document.addEventListener("click",e=>{const c=s=>e.target.closest(s);let b;
- if(b=c("[data-add]")){e.preventDefault();addCart(+b.dataset.add,1,col(find(b.dataset.add)))}          // "+" cart button on a card
+ if(c("#locbtn,[data-openloc]"))openLoc();                                                                // open the location pop-up
+ else if(b=c("[data-loc]"))setLoc(b.dataset.loc);                                                         // pick a city from the list
+ else if(c("#lx")||e.target.id=="ov")$("#ov").classList.remove("s");                                      // close the pop-up
+ else if(b=c("[data-add]")){e.preventDefault();addCart(+b.dataset.add,1,col(find(b.dataset.add)))}          // "+" cart button on a card
  else if(b=c("[data-cat]")){cat=b.dataset.cat;q="";$("#q").value="";location.hash!=="#home"?location.hash="home":route()} // category tab / tile / banner
  else if(b=c("[data-th]")){const sl=$("#sl");sl.scrollTo({left:b.dataset.th*sl.clientWidth,behavior:"smooth"})}      // thumbnail -> big photo
  else if(b=c("[data-c]")){sc=b.dataset.c;document.querySelectorAll(".vs button").forEach(x=>x.classList.toggle("on",x==b))} // choose option
@@ -318,6 +368,10 @@ $("#q").addEventListener("input",e=>{q=e.target.value;cat="All";location.hash!==
 
 /* ----- Start-up ----- */
 addEventListener("hashchange",route);
+$("#lf").addEventListener("submit",e=>{e.preventDefault();setLoc($("#li").value)});                  // typed city -> Save
+addEventListener("keydown",e=>e.key=="Escape"&&$("#ov").classList.remove("s"));                      // Esc closes the pop-up
+let hi=0;$("#q").placeholder=HINTS[0];                                                               // rotating search suggestions
+setInterval(()=>{if(document.activeElement!==$("#q")){hi=(hi+1)%HINTS.length;$("#q").placeholder=HINTS[hi]}},3000);
 setInterval(tick,1000);                                              // countdown ticks every second
 setInterval(()=>{const b=$("#bn");if(b)b.scrollTo({left:((Math.round(b.scrollLeft/b.clientWidth)+1)%BANNERS.length)*b.clientWidth,behavior:"smooth"})},4000); // banner auto-slides
 route();
