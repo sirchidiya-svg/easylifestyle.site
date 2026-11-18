@@ -137,6 +137,32 @@ body.pg .bar{display:flex}body.pg nav{display:none}
 .lf input{flex:1;min-width:0;border:1.5px solid var(--ln);border-radius:12px;padding:10px 12px;font:inherit;outline:0}
 .lf button{background:var(--tx);color:#fff;border-radius:12px;padding:0 18px;font-weight:600}
 
+/* ===== 7c. CHECKOUT PAGE (Order confirmation) ===== */
+body.co header,body.co .stk,body.co .strip,body.co nav{display:none}   /* checkout has its own top bar */
+body.co{background:#f5f5f5;padding-bottom:96px}body.co #app{padding:0;max-width:640px}
+.cohd{display:flex;align-items:center;gap:18px;padding:12px 14px;background:#fff}.cohd a{padding:6px}.cohd h1{font-size:21px;font-weight:500}
+.cs{background:#fff;margin-top:10px;padding:16px 14px}.cs h3{font-size:17px;margin-bottom:10px}.cs h3.n{font-weight:500}
+.lnk{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left}   /* a row with a ">" at the end */
+.lnk .c{flex:1;min-width:0;display:block;line-height:1.7}.r svg{width:18px;height:18px;flex:none}
+.add{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:500}.add svg{width:20px;height:20px}
+.air{height:4px;margin:16px -14px -16px;background:repeating-linear-gradient(90deg,#e2283a 0 22px,transparent 22px 28px,#3b82d6 28px 50px,transparent 50px 56px)} /* red/blue airmail stripe */
+.ci{display:flex;gap:14px;margin:12px 0}.ci .im,.ci .ph{width:78px;height:78px;border-radius:10px;flex:none}
+.ci>div{flex:1;min-width:0}.ci h4{font-size:15px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cq{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}.ci .pr{padding:0;margin:0}.ci .pr b{font-size:21px}
+.sr{display:flex;justify-content:space-between;align-items:center;padding:10px 0;width:100%}
+.sd{background:#f4f6fa;margin:0 -14px;padding:2px 14px;color:var(--mut);font-size:13px}.neg{color:var(--red)}.tt{font-size:24px}
+.sec{display:flex;align-items:center;gap:10px;color:var(--grn);font-size:17px;font-weight:700}
+.terms{padding:16px 14px;color:var(--mut);font-size:14px}.terms a{color:#1a1aff}
+.pay{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));background:#fff;font-size:17px}
+.pay button{flex:0 0 52%;height:50px;border-radius:30px;background:#f0052d;color:#fff;font-weight:600;font-size:17px}   /* red "Pay now" */
+/* forms inside the pop-up sheets */
+.fl{display:block;font-size:14px;margin:12px 0 4px}
+.fi{width:100%;border:1.5px solid var(--tx);border-radius:12px;padding:12px;font:400 16px var(--font);outline:0}.fi::placeholder{color:#b5b5b5}
+.btn{display:block;width:100%;margin-top:16px;padding:15px;border-radius:30px;background:var(--tx);color:#fff;font-weight:600;font-size:16px}.btn:disabled{background:#d4d4d4}
+.err{color:var(--red);font-size:13px;margin-top:6px}.hint{color:var(--mut);font-size:14px;margin-top:10px;line-height:1.5}
+.po{display:flex;align-items:center;gap:12px;width:100%;padding:14px 12px;border:1.5px solid var(--ln);border-radius:12px;text-align:left;margin-bottom:8px}.po.on{border-color:var(--red);background:#fd384f10}.po b{display:block}
+.ok{text-align:center;padding:70px 20px}.ok>b{display:block;font-size:56px}
+
 /* ===== 8. BOTTOM TAB BAR (mobile app style) + TOAST MESSAGE ===== */
 nav{position:fixed;left:0;right:0;bottom:0;z-index:55;display:flex;background:#fff;border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom,0)}
 nav a{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:11px;color:var(--mut)}
@@ -173,6 +199,8 @@ nav a.on{color:var(--red)}nav .bdg{left:calc(50% + 4px);right:auto}
   <div class="lg" id="lg"></div>
   <form class="lf" id="lf"><input id="li" placeholder="Other city or town" autocomplete="off"><button>Save</button></form>
 </div></div>
+<!-- GENERAL POP-UP used by checkout (address / payment method / promo code). JavaScript fills it. -->
+<div class="ov" id="ov2"><div class="sheet" id="sheet2" role="dialog"></div></div>
 
 <script>
 /* ================================================================
@@ -183,7 +211,7 @@ const STORE={
   freeShipFrom:50000,    // cart total that unlocks free delivery
   location:"Abuja",      // default delivery location (visitors can change it)
   whatsapp:""            // your number WITH country code, no + (e.g. "2348012345678").
-                         // If filled, "Checkout" sends the order to your WhatsApp.
+                         // If filled, "Pay now" sends the order to your WhatsApp.
 };
 // Category names + emoji icon (shown in the tabs and the Categories page)
 const CATEGORIES=[["Phones","📱"],["Women","👗"],["Men","👔"],["Shoes","👟"],["Bags","👜"],["Home","🏠"],["Beauty","💄"],["Kids","🧸"]];
@@ -191,6 +219,15 @@ const CATEGORIES=[["Phones","📱"],["Women","👗"],["Men","👔"],["Shoes","�
 const LOCATIONS=["Abuja","Lagos","Port Harcourt","Ibadan","Kano","Enugu","Benin City","Calabar","Owerri","Uyo","Kaduna","Jos"];
 // Suggestions that rotate inside the search box
 const HINTS=["Women Clothing","Wireless Earbuds","Sneakers","Smart Watch","Phone Accessories","Home Decor"];
+// ----- CHECKOUT SETTINGS -----
+// Delivery fee by city (any city not listed uses "default"). Orders above freeShipFrom ship free.
+const SHIPPING={default:3500,Abuja:1500,Lagos:2500,"Port Harcourt":3000};
+const DELIVERY_DAYS=[5,10];   // delivery takes between these many days (shown as "Dec 17 - 22")
+// Payment methods shown at checkout: [name, emoji, short note].
+// To accept cards online, connect a payment gateway (Paystack / Flutterwave) first, then add a "Card" line here.
+const PAYMENTS=[["Bank transfer","🏦","Pay to our bank account; we confirm on WhatsApp"],["Pay on delivery","💵","Pay cash when your order arrives"]];
+// Promo codes customers can type at checkout. pct = % off the subtotal, off = fixed amount off.
+const PROMOS={WELCOME10:{pct:10},SAVE500:{off:500}};
 // Home page banners. bg = colours. img = optional photo (e.g. "images/banner1.jpg")
 const BANNERS=[
   {t:"Mega Sale",s:"Up to 70% off today",bg:"linear-gradient(90deg,#fd384f,#ff7a00)",img:"",cat:"All"},
@@ -238,7 +275,7 @@ const sold=n=>(n>=1000?(n/1000).toFixed(1)+"K":n)+" sold";
 const col=p=>(p.colors&&p.colors[0])||"Standard";
 const find=id=>PRODUCTS.find(x=>x.id==id);
 // Icons (simple line drawings)
-const ICON={home:'<path d="M3 11l9-8 9 8M5 10v10h14V10M10 20v-6h4v6"/>',grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>',cart:'<path d="M3 4h2l2.5 11h10L20 7H6.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',chev:'<path d="M6 9l6 6 6-6"/>'};
+const ICON={home:'<path d="M3 11l9-8 9 8M5 10v10h14V10M10 20v-6h4v6"/>',grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>',cart:'<path d="M3 4h2l2.5 11h10L20 7H6.5"/><circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',chev:'<path d="M6 9l6 6 6-6"/>',plus:'<path d="M12 5v14M5 12h14"/>',left:'<path d="M15 5l-7 7 7 7"/>',right:'<path d="M9 5l7 7-7 7"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/>',shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',up:'<path d="M6 15l6-6 6 6"/>'};
 const ic=k=>`<svg viewBox="0 0 24 24">${ICON[k]}</svg>`;
 
 /* ----- PRODUCT IMAGE: shows your photo, or a grey "Add photo" box if missing/broken ----- */
@@ -249,6 +286,8 @@ const img=(p,i)=>{const src=(p.images||[])[i];return src?`<img class="im" src="$
 let cart={},cat="All",q="",sc=col,sq=1;   // cat/q = active filter, sc/sq = chosen option + quantity on product page
 try{cart=JSON.parse(localStorage.getItem("el-cart")||"{}")}catch(e){}
 let loc=STORE.location;try{loc=localStorage.getItem("el-loc")||loc}catch(e){}   // chosen delivery location (remembered)
+let addr=null,pay=null,promo=null,sumOpen=true,lastOrder="",lastH="";   // checkout: saved address, payment method, promo code, summary open?, last order no.
+try{addr=JSON.parse(localStorage.getItem("el-addr")||"null");pay=localStorage.getItem("el-pay")}catch(e){}   // remembered in the visitor's own browser
 const save=()=>{try{localStorage.setItem("el-cart",JSON.stringify(cart))}catch(e){}};
 const count=()=>Object.values(cart).reduce((a,b)=>a+b,0);
 // Updates every cart badge (header, bottom bar, product page) and plays a small "pop"
@@ -262,7 +301,56 @@ function showLoc(){
   document.querySelectorAll("#locbtn b,.dl").forEach(e=>e.textContent=loc);   // textContent keeps typed text safe
 }
 function openLoc(){$("#lg").innerHTML=LOCATIONS.map(c=>`<button data-loc="${c}" class="${c==loc?"on":""}">${c}</button>`).join("");$("#li").value="";$("#ov").classList.add("s")}
-function setLoc(v){v=v.trim();if(!v)return;loc=v;try{localStorage.setItem("el-loc",v)}catch(e){}showLoc();$("#ov").classList.remove("s");toast("Delivering to "+v)}
+function setLoc(v){v=v.trim();if(!v)return;loc=v;try{localStorage.setItem("el-loc",v)}catch(e){}showLoc();$("#ov").classList.remove("s");toast("Delivering to "+v);if(location.hash=="#checkout")route()}
+
+/* ================================================================
+   CHECKOUT helpers (Order confirmation page)
+   ================================================================ */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));   // makes typed text safe to show
+const R=()=>`<span class="r">${ic("right")}</span>`;                                                  // the small ">" at the end of a row
+const mn=n=>STORE.currency+Number(n).toLocaleString();                                                // plain-text price (used in the WhatsApp message)
+// Works out every number on the checkout page
+function calc(){
+  let sub=0,full=0;
+  for(const k in cart){const p=find(k.split("|")[0]);sub+=p.price*cart[k];full+=(p.old||p.price)*cart[k]}   // sub = what they pay, full = old prices
+  const pr=PROMOS[promo],pd=pr?Math.min(sub,pr.pct?Math.round(sub*pr.pct/100):pr.off):0;                    // promo discount
+  const ship=!sub||sub>=STORE.freeShipFrom?0:(SHIPPING[loc]??SHIPPING.default);                             // delivery fee by city
+  return{sub,full,disc:full-sub,pd,ship,total:sub-pd+ship};
+}
+// Delivery dates, e.g. "Dec 17 - 22"
+function range(){const a=new Date(),b=new Date(),m=d=>d.toLocaleString("en",{month:"short"});
+  a.setDate(a.getDate()+DELIVERY_DAYS[0]);b.setDate(b.getDate()+DELIVERY_DAYS[1]);
+  return a.getMonth()==b.getMonth()?`${m(a)} ${a.getDate()} - ${b.getDate()}`:`${m(a)} ${a.getDate()} - ${m(b)} ${b.getDate()}`}
+
+/* ----- POP-UP SHEETS: shipping address, payment method, promo code ----- */
+function sheet(title,html){$("#sheet2").innerHTML=`<div class="sh"><b>${title}</b><button class="x" data-close aria-label="Close">✕</button></div>${html}`;$("#ov2").classList.add("s")}
+const closeSheet=()=>$("#ov2").classList.remove("s");
+function sheetAddr(){const a=addr||{};
+  sheet("Shipping address",`<form id="af">
+   <label class="fl">Full name</label><input class="fi" name="name" required value="${esc(a.name||"")}" placeholder="Full name">
+   <label class="fl">Phone number</label><input class="fi" name="phone" required inputmode="tel" value="${esc(a.phone||"")}" placeholder="+234 ...">
+   <label class="fl">Street address</label><input class="fi" name="line" required value="${esc(a.line||"")}" placeholder="House number, street, area">
+   <label class="fl">City / town</label><input class="fi" name="city" required value="${esc(a.city||loc)}">
+   <label class="fl">State</label><input class="fi" name="state" required value="${esc(a.state||"")}" placeholder="e.g. FCT">
+   <button class="btn">${addr?"Save address":"Add New Address"}</button></form>`)}
+function sheetPay(){sheet("Payment method",PAYMENTS.map(([n,i,d])=>`<button class="po ${n==pay?"on":""}" data-pm="${esc(n)}"><span style="font-size:26px">${i}</span><span><b>${n}</b><small>${d}</small></span></button>`).join(""))}
+function sheetPromo(){sheet("Promo code",`<label class="fl">Promo code<span class="neg">*</span></label><input class="fi" id="pi" placeholder="Please input..." autocomplete="off" autocapitalize="off"><p class="err" id="pe"></p>
+  <p class="hint">Promo codes are a combination of case sensitive letters and numbers, without spaces. Promo codes have limitation and expiration dates.</p><button class="btn" id="pa" disabled>Apply</button>`)}
+function setPay(v){pay=v;try{localStorage.setItem("el-pay",v)}catch(e){}closeSheet();route()}
+function applyPromo(){const v=$("#pi").value.trim();
+  if(PROMOS[v]){promo=v;closeSheet();route();toast("Promo code applied")}else $("#pe").textContent="This promo code is invalid or has expired."}
+
+/* ----- "Pay now": checks address + payment method, then sends the order to your WhatsApp ----- */
+function placeOrder(){
+  if(!addr){toast("Please add a shipping address");return sheetAddr()}
+  if(!pay){toast("Please add a payment method");return sheetPay()}
+  if(!STORE.whatsapp)return toast("Orders are not connected yet: add your WhatsApp number in the store settings");
+  const c=calc(),no="EL"+Date.now().toString().slice(-6);
+  const lines=Object.keys(cart).map(k=>{const[id,v]=k.split("|"),p=find(id);return`${cart[k]} x ${p.name} (${v}) - ${mn(p.price*cart[k])}`});
+  const msg=`NEW ORDER ${no}\n${lines.join("\n")}\nSubtotal: ${mn(c.sub)}\n`+(c.pd?`Promo ${promo}: -${mn(c.pd)}\n`:"")+`Shipping: ${mn(c.ship)}\nTOTAL: ${mn(c.total)}\nPayment: ${pay}\nName: ${addr.name}\nPhone: ${addr.phone}\nAddress: ${addr.line}, ${addr.city}, ${addr.state}\nDelivery: ${range()}`;
+  window.open("https://wa.me/"+STORE.whatsapp+"?text="+encodeURIComponent(msg),"_blank");
+  lastOrder=no;cart={};promo=null;save();badge();location.hash="done";        // clear the cart and show the "Order sent" page
+}
 
 /* ----- Product card used on every list (home, deals, results, more to love) ----- */
 const card=p=>`<a class="pc" href="#product-${p.id}">${img(p,0)}<div class="pi"><h3>${p.name}</h3>
@@ -295,6 +383,41 @@ const view={
   const left=STORE.freeShipFrom-total;
   return`<h2 class="h">Shopping cart (${count()})</h2>${rows}<div class="tot"><small>${left>0?"Add "+STORE.currency+left.toLocaleString()+" more for free shipping":"You got free shipping!"}</small>
   <div class="prog"><i style="width:${Math.min(100,total/STORE.freeShipFrom*100)}%"></i></div><p><span>Total</span><b style="font-size:19px;color:var(--red)">${money(total)}</b></p><button class="go" data-pay>Checkout</button></div>`},
+ // ---- CHECKOUT PAGE ("Order confirmation") ----
+ checkout(){
+  const top=`<div class="cohd"><a href="#cart" aria-label="Back">${ic("left")}</a><h1>Order confirmation</h1></div>`,ks=Object.keys(cart);
+  if(!ks.length)return top+`<div class="empty"><b>🛒</b>Your cart is empty<a class="go" href="#home">Start shopping</a></div>`;
+  const c=calc(),fee=c.ship?money(c.ship):"Free";
+  const items=ks.map(k=>{const[id,v]=k.split("|"),p=find(id);return`<div class="ci">${img(p,0)}<div><h4>${p.name}</h4><small>${v}</small>
+   <div class="cq"><div class="pr"><b>${money(p.price)}</b>${p.old?`<s>${money(p.old)}</s>`:""}</div>
+   <div class="qty"><button data-q="-1" data-k="${k}">−</button><span>${cart[k]}</span><button data-q="1" data-k="${k}">+</button></div></div></div></div>`}).join("");
+  return top+`
+  <!-- 1. SHIPPING ADDRESS: shows "+ Add address" until the customer saves one. The ">" opens the address form -->
+  <div class="cs"><h3>Shipping address</h3><button class="lnk" data-addr>${addr
+    ?`<span class="c"><b>${esc(addr.name)}</b> &nbsp;${esc(addr.phone)}<br>${esc(addr.line)}<br>${esc(addr.city)}, ${esc(addr.state)}, Nigeria</span>`
+    :`<span class="add">${ic("plus")}Add address</span>`}${R()}</button><div class="air"></div></div>
+  <!-- 2. STORE + ITEMS + SHIPPING (the ">" next to Shipping opens the location picker, because the fee depends on the city) -->
+  <div class="cs"><h3 class="lnk"><span>Easy Lifestyle</span><a href="#cart" aria-label="Edit cart">${ic("edit")}</a></h3>${items}
+   <button class="lnk" data-openloc><span class="c"><b>Shipping: ${fee}</b><br>Delivery: ${range()}</span>${R()}</button></div>
+  <!-- 3. PAYMENT METHOD: shows "+ Add payment method" until one is chosen -->
+  <div class="cs"><h3 class="n">Payment method</h3><button class="lnk" data-paysheet>${pay
+    ?`<span class="add"><span style="font-size:22px">${(PAYMENTS.find(x=>x[0]==pay)||[])[1]||"💳"}</span>${esc(pay)}</span>`
+    :`<span class="add">${ic("plus")}Add payment method</span>`}${R()}</button></div>
+  <!-- 4. PROMO CODE -->
+  <div class="cs"><button class="lnk" data-promo><b style="font-size:17px">Promo code${promo?` <span class="neg">· ${esc(promo)}</span>`:""}</b>${R()}</button></div>
+  <!-- 5. SUMMARY: tap "Subtotal" to show / hide the details -->
+  <div class="cs"><h3>Summary</h3>
+   <button class="lnk sr" data-sum><span>Subtotal</span><span style="display:flex;gap:4px;align-items:center">${money(c.sub)}${ic(sumOpen?"up":"chev")}</span></button>
+   ${sumOpen?`<div class="sd"><div class="sr"><span>Items total</span><s>${money(c.full)}</s></div><div class="sr"><span>Items discount</span><span class="neg">-${money(c.disc)}</span></div>${c.pd?`<div class="sr"><span>Promo code</span><span class="neg">-${money(c.pd)}</span></div>`:""}</div>`:""}
+   <div class="sr"><span>Shipping fee</span><span>${fee}</span></div>
+   <div class="sr" style="border-top:1px solid var(--ln)"><b>Total</b><b class="tt">${money(c.total)}</b></div></div>
+  <!-- 6. SECURITY + TERMS (change the "#home" link to your terms page) -->
+  <div class="cs"><div class="lnk"><span class="sec">${ic("shield")}Security &amp; Privacy</span>${R()}</div><p class="hint" style="margin-left:34px">Safe payments · Secure personal details</p></div>
+  <p class="terms">Upon clicking 'Pay now', I confirm I have read and acknowledged <a href="#home">all terms and policies</a>.</p>
+  <!-- 7. STICKY PAY BAR -->
+  <div class="pay"><span>Total: <b>${money(c.total)}</b></span><button data-place>Pay now</button></div>`},
+ // ---- ORDER SENT PAGE ----
+ done(){return`<div class="ok"><b>✅</b><h2 class="h">Order sent!</h2><p>Your order <b>${lastOrder||""}</b> was sent to our WhatsApp. We will reply there to confirm payment and delivery.</p><a class="go" href="#home">Continue shopping</a></div>`},
  // ---- PRODUCT (SALES) PAGE: gallery, price, options, description ----
  product(id){
   const p=find(id);if(!p)return view.home();sc=col(p);sq=1;
@@ -320,13 +443,14 @@ const view={
    ================================================================ */
 function route(){
   const h=location.hash.slice(1)||"home",m=h.match(/^product-(\d+)$/),v=m?"product":view[h]?h:"home";
-  document.body.classList.toggle("pg",v=="product");                 // hides bottom tabs on product page
+  document.body.classList.toggle("pg",v=="product");
+  document.body.classList.toggle("co",v=="checkout");                 // checkout hides the normal header and tabs                 // hides bottom tabs on product page
   $("#app").innerHTML=m?view.product(m[1]):view[v]();
   $("#tabs").innerHTML=["All",...CATEGORIES.map(c=>c[0])].map(n=>`<button data-cat="${n}" class="${cat==n?"on":""}">${n}</button>`).join("");
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on",a.dataset.v==v));
   const sl=$("#sl");                                                // gallery: update "1/5" counter + thumbnails while swiping
   if(sl)sl.onscroll=()=>{const i=Math.round(sl.scrollLeft/sl.clientWidth);$("#cnt").textContent=(i+1)+"/"+sl.children.length;document.querySelectorAll("#th>*").forEach((t,j)=>t.classList.toggle("on",i==j))};
-  badge();tick();showLoc();scrollTo(0,0);
+  badge();tick();showLoc();if(h!=lastH)scrollTo(0,0);lastH=h;   // only jump to top when the page changes
 }
 // Countdown to midnight, shown next to "SuperDeals" and "Big Sale"
 function tick(){const e=new Date();e.setHours(24,0,0,0);const s=Math.floor((e-new Date())/1000),p=n=>String(n).padStart(2,"0");
@@ -350,18 +474,19 @@ document.addEventListener("click",e=>{const c=s=>e.target.closest(s);let b;
  else if(b=c("[data-c]")){sc=b.dataset.c;document.querySelectorAll(".vs button").forEach(x=>x.classList.toggle("on",x==b))} // choose option
  else if(b=c("[data-s]")){sq=Math.max(1,sq+ +b.dataset.s);$("#sq").textContent=sq}                      // quantity − / +
  else if(b=c("[data-addsel]"))addCart(+b.dataset.addsel,sq,sc)                                           // Add to cart (product page)
- else if(b=c("[data-buy]")){addCart(+b.dataset.buy,sq,sc);location.hash="cart"}                          // Buy now
+ else if(b=c("[data-buy]")){addCart(+b.dataset.buy,sq,sc);location.hash="checkout"}                          // Buy now
  else if(b=c("[data-q]")){const k=b.dataset.k;cart[k]+=+b.dataset.q;if(cart[k]<1)delete cart[k];save();route()} // cart quantity
  else if(b=c("[data-rm]")){delete cart[b.dataset.rm];save();route()}                                     // remove from cart
- else if(c("[data-pay]"))checkout();
+ else if(c("[data-pay]"))location.hash="checkout";                                                        // Cart "Checkout" -> order confirmation page
+ else if(c("[data-addr]"))sheetAddr();                                                                    // "+ Add address" row
+ else if(c("[data-paysheet]"))sheetPay();                                                                 // "+ Add payment method" row
+ else if(b=c("[data-pm]"))setPay(b.dataset.pm);                                                           // choose a payment method
+ else if(c("[data-promo]"))sheetPromo();                                                                  // Promo code row
+ else if(c("#pa"))applyPromo();                                                                           // Apply promo
+ else if(c("[data-sum]")){sumOpen=!sumOpen;route()}                                                       // show / hide summary details
+ else if(c("[data-place]"))placeOrder();                                                                  // Pay now
+ else if(c("[data-close]")||e.target.id=="ov2")closeSheet();                                              // close the pop-up
 });
-
-/* ----- Checkout: sends the order to your WhatsApp if a number is set in STORE ----- */
-function checkout(){
-  if(!STORE.whatsapp)return toast("Checkout is not connected yet");
-  let total=0;const lines=Object.keys(cart).map(k=>{const[id,c]=k.split("|"),p=find(id);total+=p.price*cart[k];return`${cart[k]} x ${p.name} (${c}) - ${STORE.currency}${(p.price*cart[k]).toLocaleString()}`});
-  open(`https://wa.me/${STORE.whatsapp}?text=`+encodeURIComponent("Hello Easy Lifestyle, I want to order:\n"+lines.join("\n")+"\nTotal: "+STORE.currency+total.toLocaleString()));
-}
 
 /* ----- Search: filters products as the visitor types ----- */
 $("#q").addEventListener("input",e=>{q=e.target.value;cat="All";location.hash!=="#home"&&location.hash!==""?location.hash="home":route()});
@@ -369,7 +494,11 @@ $("#q").addEventListener("input",e=>{q=e.target.value;cat="All";location.hash!==
 /* ----- Start-up ----- */
 addEventListener("hashchange",route);
 $("#lf").addEventListener("submit",e=>{e.preventDefault();setLoc($("#li").value)});                  // typed city -> Save
-addEventListener("keydown",e=>e.key=="Escape"&&$("#ov").classList.remove("s"));                      // Esc closes the pop-up
+addEventListener("keydown",e=>{if(e.key=="Escape"){$("#ov").classList.remove("s");closeSheet()}});         // Esc closes pop-ups
+document.addEventListener("input",e=>{if(e.target.id=="pi")$("#pa").disabled=!e.target.value.trim()});     // Apply button turns on when a code is typed
+document.addEventListener("submit",e=>{if(e.target.id!="af")return;e.preventDefault();                       // address form saved
+  addr=Object.fromEntries(new FormData(e.target));try{localStorage.setItem("el-addr",JSON.stringify(addr))}catch(x){}
+  closeSheet();setLoc(addr.city)});                                                                          // city also becomes the delivery location                      // Esc closes the pop-up
 let hi=0;$("#q").placeholder=HINTS[0];                                                               // rotating search suggestions
 setInterval(()=>{if(document.activeElement!==$("#q")){hi=(hi+1)%HINTS.length;$("#q").placeholder=HINTS[hi]}},3000);
 setInterval(tick,1000);                                              // countdown ticks every second
